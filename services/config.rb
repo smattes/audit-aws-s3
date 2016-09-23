@@ -2,6 +2,8 @@
 coreo_aws_advisor_alert "s3-allusers-write" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-allusers-write.html"
+  display_name "All users can write to the affected bucket"
   description "Bucket has permissions (ACL) which let all users write to the bucket."
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to write."
@@ -15,6 +17,8 @@ end
 coreo_aws_advisor_alert "s3-allusers-write-acp" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-allusers-write-acp.html"
+  display_name "All users can write the bucket ACP / ACL"
   description "Bucket has permissions (ACP / ACL) which let all users modify the permissions."
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to edit permissions."
@@ -28,6 +32,8 @@ end
 coreo_aws_advisor_alert "s3-allusers-read" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-allusers-read.html"
+  display_name "All users can list the affected bucket"
   description "Bucket has permissions (ACL) which let anyone list the bucket contents."
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to list the bucket."
@@ -41,6 +47,8 @@ end
 coreo_aws_advisor_alert "s3-authenticatedusers-write" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write.html"
+  display_name "All authenticated AWS users can write to the affected bucket"
   description "Bucket has permissions (ACL) which let any AWS users write to the bucket."
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to write."
@@ -54,6 +62,8 @@ end
 coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write-acp.html"
+  display_name "All authenticated AWS users can change bucket permissions"
   description "Bucket has permissions ( ACP / ACL) which let any AWS user modify the permissions."
   category "dataloss"
   suggested_action "Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions."
@@ -67,6 +77,8 @@ end
 coreo_aws_advisor_alert "s3-authenticatedusers-read" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-read.html"
+  display_name "All authenticated AWS users can read the affected bucket"
   description "Bucket has permissions (ACL) which let any AWS user list the bucket contents."
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to list the bucket."
@@ -80,6 +92,8 @@ end
 coreo_aws_advisor_alert "s3-logging-disabled" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html"
+  display_name "S3 bucket logging not enabled"
   description "S3 bucket logging has not been enabled for the affected resource."
   category "Audit"
   suggested_action "Enable logging on your S3 buckets."
@@ -93,6 +107,8 @@ end
 coreo_aws_advisor_alert "s3-world-open-policy-delete" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-delete.html"
+  display_name "Bucket policy gives world delete permission"
   description "Bucket policy allows the world to delete the affected bucket"
   category "Dataloss"
   suggested_action "Remove or modify the bucket policy that enables the world to delete the contents of this bucket."
@@ -107,6 +123,8 @@ end
 coreo_aws_advisor_alert "s3-world-open-policy-get" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-get.html"
+  display_name "Bucket policy gives world Get permission"
   description "Bucket policy allows the world to get the contents of the affected bucket."
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables the world to get the contents of this bucket."
@@ -121,6 +139,8 @@ end
 coreo_aws_advisor_alert "s3-world-open-policy-list" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-list.html"
+  display_name "Bucket policy gives world List permission"
   description "Bucket policy allows the world to list the contents of the affected bucket"
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables the world to list the contents of this bucket."
@@ -135,6 +155,8 @@ end
 coreo_aws_advisor_alert "s3-world-open-policy-put" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-put.html"
+  display_name "Bucket policy gives world Put permission"
   description "Bucket policy allows the world to put data into the affected bucket."
   category "Dataloss"
   suggested_action "Remove the bucket permission that enables the world to put (and overwrite) data in this bucket."
@@ -149,6 +171,8 @@ end
 coreo_aws_advisor_alert "s3-world-open-policy-all" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html"
+  display_name "Bucket policy gives world Get, Put, List, and Delete permission"
   description "Bucket policy allows the world to get, put, list, delete the affected bucket"
   category "Dataloss"
   suggested_action "Remove the bucket permission that enables the world to get, put, list, and delete the contents of this bucket."
@@ -163,6 +187,8 @@ end
 coreo_aws_advisor_alert "s3-only-ip-based-policy" do
   action :define
   service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-only-ip-based-policy.html"
+  display_name "Bucket policy uses IP addresses to grant permission"
   description "Bucket policy grants permissions to any user at an IP address or range to perform operations on objects in the specified bucket."
   category "Security"
   suggested_action "Consider using other methods to grant permission to perform operations on your S3 buckets."
