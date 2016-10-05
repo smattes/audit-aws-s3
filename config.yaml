@@ -1,6 +1,6 @@
 variables:
   AUDIT_AWS_S3_ALERT_LIST:
-    description: alert list for generating notifications
+    description: Which alerts would you like to check for? (Default is all S3 alerts)
     required: true
     type: array
     default:
@@ -18,7 +18,7 @@ variables:
       - s3-world-open-policy-all
       - s3-only-ip-based-policy
   AUDIT_AWS_S3_ALERT_RECIPIENT:
-    description: Enter email address that will receive notifications.
+    description: Enter email address(es) that will receive notifications. (If more than one, separate each with a comma.)
     required: true
     type: string
     default:
@@ -28,12 +28,12 @@ variables:
     type: string
     default: false
   AUDIT_AWS_S3_PAYLOAD_TYPE:
-    description: json or text
+    description: What format would you like the reports in? (Defaults to and currently support only json.)
     required: true
     type: string
     default: "json"
   AUDIT_AWS_S3_SEND_ON:
-    description: Send reports always or only when there is a change (always / change)?
+    description: Send reports always or only when there is a change? (Options: always / change | Default is change.)
     required: true
     type: string
     default: "change"
