@@ -27,11 +27,6 @@ variables:
     required: true
     type: string
     default: false
-  AUDIT_AWS_S3_PAYLOAD_TYPE:
-    description: What format would you like the reports in? (Defaults to and currently support only json.)
-    required: true
-    type: string
-    default: "json"
   AUDIT_AWS_S3_SEND_ON:
     description: Send reports always or only when there is a change? (Options: always / change | Default is change.)
     required: true
