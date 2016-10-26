@@ -47,6 +47,10 @@ This repo is designed to work with CloudCoreo. It will monitor S3 against best p
 1. Alert
 1. S3
 
+## Categories
+
+1. Audit
+
 ## Diagram
 
 
