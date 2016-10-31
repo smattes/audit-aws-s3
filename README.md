@@ -4,58 +4,63 @@ This stack will monitor S3 and alert on things CloudCoreo developers think are v
 
 
 ## Description
+This repo is designed to work with CloudCoreo. It will monitor S3 against best practices for you and send a report to the email address designated by the config.yaml AUDIT&#95;AWS&#95;S3&#95;ALERT&#95;RECIPIENT value
 
-This repo is designed to work with CloudCoreo. It will monitor S3 against best practices for you and send a report to the email address designated by the config.yaml AUDIT_AWS_S3_ALERT_RECIPIENT value
 
-## Variables Requiring Your Input
+## Hierarchy
+![composite inheritance hierarchy](https://raw.githubusercontent.com/CloudCoreo/audit-aws-s3/master/images/hierarchy.png "composite inheritance hierarchy")
+
+
+
+## Required variables with no default
 
 ### `AUDIT_AWS_S3_ALERT_RECIPIENT`:
-  * description: email recipient for notification
+  * description: Enter the email address(es) that will receive notifications. If more than one, separate each with a comma.
 
-## Variables Required but Defaulted
+
+## Required variables with default
 
 ### `AUDIT_AWS_S3_ALERT_LIST`:
-  * description: alert list for generating notifications
-  * default: s3-allusers-write,s3-allusers-write-acp,s3-allusers-read,s3-authenticatedusers-write,s3-authenticatedusers-write-acp,s3-authenticatedusers-read,s3-logging-disabled,s3-world-open-policy-delete,s3-world-open-policy-get,s3-world-open-policy-list,s3-world-open-policy-put,s3-world-open-policy-all,s3-only-ip-based-policy
-
-### `AUDIT_AWS_S3_ALERT_RECIPIENT`:
-  * description: email recipient for notification
+  * description: Which alerts would you like to check for? (Default is all S3 alerts)
+  * default: s3-allusers-write, s3-allusers-write-acp, s3-allusers-read, s3-authenticatedusers-write, s3-authenticatedusers-write-acp, s3-authenticatedusers-read, s3-logging-disabled, s3-world-open-policy-delete, s3-world-open-policy-get, s3-world-open-policy-list, s3-world-open-policy-put, s3-world-open-policy-all, s3-only-ip-based-policy
 
 ### `AUDIT_AWS_S3_ALLOW_EMPTY`:
-  * description: receive empty reports?
-
-### `AUDIT_AWS_S3_PAYLOAD_TYPE`:
-  * description: json or text
-  * default: json
+  * description: Would you like to receive empty reports. true / false
+  * default: false
 
 ### `AUDIT_AWS_S3_SEND_ON`:
-  * description: always or change
+  * description: Send reports always or only when there is a change? Options - always / change. Default is change.
   * default: change
 
 ### `AUDIT_AWS_S3_REGIONS`:
-  * description: list of AWS regions to check. Default is all regions
-  * default: us-east-1
+  * description: List of AWS regions to check. Default is us-east-1,us-west-1,us-west-2.
+  * default: us-east-1, us-west-1, us-west-2
 
-## Variables Not Required
+
+## Optional variables with no default
+
+**None**
+
+
+## Optional variables with default
 
 **None**
 
 ## Tags
-
 1. Audit
 1. Best Practices
 1. Alert
 1. S3
 
 ## Categories
-
 1. Audit
 
-## Diagram
 
+
+## Diagram
+![diagram](https://raw.githubusercontent.com/CloudCoreo/audit-aws-s3/master/images/diagram.png "diagram")
 
 
 ## Icon
-
 
 
