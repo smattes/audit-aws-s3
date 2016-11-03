@@ -28,7 +28,7 @@ variables:
     type: string
     default: false
   AUDIT_AWS_S3_SEND_ON:
-    description: Send reports always or only when there is a change? Options - always / change. Default is change.
+    description: Send reports always or only when there is a change. Options - always / change. Default is change.
     required: true
     type: string
     default: "change"
