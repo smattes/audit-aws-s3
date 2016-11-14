@@ -8,8 +8,8 @@ coreo_aws_advisor_alert "s3-allusers-write" do
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to write."
   level "Critical"
-  objectives    ["bucket_acl", "bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.grantee.permission"]
+  objectives    ["bucket_acl","bucket_acl"]
+  audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AllUsers/i, "write"]
 end
@@ -23,8 +23,8 @@ coreo_aws_advisor_alert "s3-allusers-write-acp" do
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to edit permissions."
   level "Emergency"
-  objectives    ["bucket_acl", "bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.grantee.permission"]
+  objectives    [ "bucket_acl","bucket_acl"]
+  audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AllUsers/i, "write_acp"]
 end
@@ -38,8 +38,8 @@ coreo_aws_advisor_alert "s3-allusers-read" do
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to list the bucket."
   level "Alert"
-  objectives    ["bucket_acl", "bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.grantee.permission"]
+  objectives    [ "bucket_acl","bucket_acl"]
+  audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AllUsers/i, "read"]
 end
@@ -53,8 +53,8 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write" do
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to write."
   level "Critical"
-  objectives    ["bucket_acl", "bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.grantee.permission"]
+  objectives    [ "bucket_acl","bucket_acl"]
+  audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AuthenticatedUsers/i, "write"]
 end
@@ -68,8 +68,8 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
   category "dataloss"
   suggested_action "Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions."
   level "danger"
-  objectives    ["bucket_acl", "bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.grantee.permission"]
+  objectives    [ "bucket_acl","bucket_acl"]
+  audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AuthenticatedUsers/i, "write_acp"]
 end
@@ -83,8 +83,8 @@ coreo_aws_advisor_alert "s3-authenticatedusers-read" do
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to list the bucket."
   level "Alert"
-  objectives    ["bucket_acl", "bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.grantee.permission"]
+  objectives    [ "bucket_acl","bucket_acl"]
+  audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AuthenticatedUsers/i, "read"]
 end
