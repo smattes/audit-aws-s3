@@ -168,20 +168,22 @@ coreo_aws_advisor_alert "s3-world-open-policy-put" do
   alert_when    [/"Allow",[^\]]+("AWS":"*"|"*")[^\]]+(s3:Put)/]
 end
 
+# note we changed the regex and metadata on this rule so the KB link will need to be re-validated (that is why its commented out)
+#
 coreo_aws_advisor_alert "s3-world-open-policy-all" do
   action :define
   service :s3
-  link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html"
-  display_name "Bucket policy gives world Get, Put, List, and Delete permission"
-  description "Bucket policy allows the world to get, put, list, delete the affected bucket"
+  #link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html"
+  display_name "Bucket policy gives the world permission to do anything in the bucket"
+  description "Bucket policy gives the world permission to do anything in the bucket"
   category "Dataloss"
-  suggested_action "Remove the bucket permission that enables the world to get, put, list, and delete the contents of this bucket."
+  suggested_action "Modify the principle to remove the * notation which signifies any person or remove the * from allowed actions which signifies allowing any possible action on the bucket or its contents."
   level "Emergency"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[*].[Effect,Principal,Action]"]
   operators     ["=~"]
-  alert_when    [/"Allow",[^\]]+("AWS":"*"|"*")[^\]]+(s3:\*)/]
+  alert_when    [/"Allow",[^\]]+("*")[^\]]+(s3:\*)/]
 end
 
 coreo_aws_advisor_alert "s3-only-ip-based-policy" do
