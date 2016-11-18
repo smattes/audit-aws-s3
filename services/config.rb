@@ -117,7 +117,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-delete" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[*].[Effect,Principal,Action]"]
   operators     ["=~"]
-  alert_when    [/"Allow",[^\]]+("AWS":"*"|"*")[^\]]+(s3:DeleteBucket)/]
+  alert_when    [/"Allow",[^\]]+("*")[^\]]+(s3:DeleteBucket)/]
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-get" do
@@ -133,7 +133,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-get" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[*].[Effect,Principal,Action]"]
   operators     ["=~"]
-  alert_when    [/"Allow",[^\]]+("AWS":"*"|"*")[^\]]+(s3:Get)/]
+  alert_when    [/"Allow",[^\]]+("*")[^\]]+(s3:Get)/]
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-list" do
@@ -149,7 +149,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-list" do
   audit_objects ["policy"]
   formulas ["jmespath.Statement[*].[Effect,Principal,Action]"]
   operators     ["=~"]
-  alert_when    [/"Allow",[^\]]+("AWS":"*"|"*")[^\]]+(s3:List)/]
+  alert_when    [/"Allow",[^\]]+("*")[^\]]+(s3:List)/]
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-put" do
@@ -165,7 +165,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-put" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[*].[Effect,Principal,Action]"]
   operators     ["=~"]
-  alert_when    [/"Allow",[^\]]+("AWS":"*"|"*")[^\]]+(s3:Put)/]
+  alert_when    [/"Allow",[^\]]+("*")[^\]]+(s3:Put)/]
 end
 
 # note we changed the regex and metadata on this rule so the KB link will need to be re-validated (that is why its commented out)
