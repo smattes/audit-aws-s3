@@ -109,15 +109,15 @@ coreo_aws_advisor_alert "s3-world-open-policy-delete" do
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-delete.html"
   display_name "Bucket policy gives world delete permission"
-  description "Bucket policy allows the world to delete the affected bucket"
+  description "Bucket policy allows the world to delete the affected bucket and/or its contents"
   category "Dataloss"
-  suggested_action "Remove or modify the bucket policy that enables the world to delete the contents of this bucket."
+  suggested_action "Remove or modify the bucket policy that enables the world to delete the contents of this bucket or even the bucket itself."
   level "Emergency"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
-  formulas      ["jmespath.Statement[*].[Effect,Principal,Action]"]
+  formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/"Allow",[^\]]+("*")[^\]]+(s3:DeleteBucket)/]
+  alert_when    [/s3:Delete*/]
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-get" do
@@ -131,9 +131,9 @@ coreo_aws_advisor_alert "s3-world-open-policy-get" do
   level "Critical"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
-  formulas      ["jmespath.Statement[*].[Effect,Principal,Action]"]
+  formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/"Allow",[^\]]+("*")[^\]]+(s3:Get)/]
+  alert_when    [/s3:Get*/]
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-list" do
@@ -147,9 +147,9 @@ coreo_aws_advisor_alert "s3-world-open-policy-list" do
   level "danger"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
-  formulas ["jmespath.Statement[*].[Effect,Principal,Action]"]
+  formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/"Allow",[^\]]+("*")[^\]]+(s3:List)/]
+  alert_when    [/s3:List*/]
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-put" do
@@ -163,9 +163,9 @@ coreo_aws_advisor_alert "s3-world-open-policy-put" do
   level "danger"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
-  formulas      ["jmespath.Statement[*].[Effect,Principal,Action]"]
+  formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/"Allow",[^\]]+("*")[^\]]+(s3:Put)/]
+  alert_when    [/s3:Put*/]
 end
 
 # note we changed the regex and metadata on this rule so the KB link will need to be re-validated (that is why its commented out)
@@ -181,9 +181,9 @@ coreo_aws_advisor_alert "s3-world-open-policy-all" do
   level "Emergency"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
-  formulas      ["jmespath.Statement[*].[Effect,Principal,Action]"]
+  formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/"Allow",[^\]]+("*")[^\]]+(s3:\*)/]
+  alert_when    [/[^\[\]\{\}]/]
 end
 
 coreo_aws_advisor_alert "s3-only-ip-based-policy" do
