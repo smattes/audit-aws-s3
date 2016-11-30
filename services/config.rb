@@ -202,8 +202,6 @@ coreo_aws_advisor_alert "s3-only-ip-based-policy" do
   alert_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
 end
 
-# see PLA-889
-#
 coreo_aws_advisor_s3 "advise-s3" do
   action :advise
   alerts ${AUDIT_AWS_S3_ALERT_LIST}
@@ -213,13 +211,18 @@ coreo_aws_advisor_s3 "advise-s3" do
   global_modifier({:bucket_name => "buckets.name"})
 end
 
-coreo_uni_util_notify "advise-s3" do
-  action :notify
+=begin
+  START AWS S3 METHODS
+  JSON SEND METHOD
+  HTML SEND METHOD
+=end
+coreo_uni_util_notify "advise-s3-json" do
+  action :${AUDIT_AWS_S3_FULL_JSON_REPORT}
   type 'email'
   allow_empty ${AUDIT_AWS_S3_ALLOW_EMPTY}
-  send_on "${AUDIT_AWS_S3_SEND_ON}"
-  payload '{"stack name":"PLAN::stack_name",
-  "instance name":"PLAN::name",
+  send_on 'always'
+  payload '{"composite name":"PLAN::stack_name",
+  "plan name":"PLAN::name",
   "number_of_checks":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_checks",
   "number_of_violations":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_violations",
   "number_violations_ignored":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_ignored_violations",
@@ -230,3 +233,70 @@ coreo_uni_util_notify "advise-s3" do
   })
 end
 
+coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
+  action :run
+  data_type "json"
+  packages([
+               {
+                   :name => "cloudcoreo-jsrunner-commons",
+                   :version => "1.0.9"
+               }       ])
+  json_input '{ "composite name":"PLAN::stack_name",
+                "plan name":"PLAN::name",
+                "number_of_checks":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_checks",
+                "number_of_violations":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_violations",
+                "number_violations_ignored":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_ignored_violations",
+                "violations": COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
+  function <<-EOH
+const CloudCoreoJSRunner = require('cloudcoreo-jsrunner-commons');
+const AuditS3 = new CloudCoreoJSRunner(json_input, false, "${AUDIT_AWS_S3_ALERT_NO_OWNER_RECIPIENT}", "${AUDIT_AWS_S3_OWNER_TAG}", 's3');
+const notifiers = AuditS3.getNotifiers();
+callback(notifiers);
+  EOH
+end
+
+coreo_uni_util_jsrunner "tags-rollup-s3" do
+  action :run
+  data_type "text"
+  json_input 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.return'
+  function <<-EOH
+var rollup_string = "";
+for (var entry=0; entry < json_input.length; entry++) {
+  console.log(json_input[entry]);
+  if (json_input[entry]['endpoint']['to'].length) {
+    console.log('got an email to rollup');
+    rollup_string = rollup_string + "recipient: " + json_input[entry]['endpoint']['to'] + " - " + "nViolations: " + json_input[entry]['num_violations'] + "\\n";
+  }
+}
+callback(rollup_string);
+  EOH
+end
+
+coreo_uni_util_notify "advise-s3-to-tag-values" do
+  action :${AUDIT_AWS_S3_OWNERS_HTML_REPORT}
+  notifiers 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.return'
+end
+
+coreo_uni_util_notify "advise-s3-rollup" do
+  action :${AUDIT_AWS_S3_ROLLUP_REPORT}
+  type 'email'
+  allow_empty true
+  send_on 'always'
+  payload '
+composite name: PLAN::stack_name
+plan name: PLAN::name
+number_of_checks: COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_checks
+number_of_violations: COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_violations
+number_violations_ignored: COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_ignored_violations
+
+rollup report:
+COMPOSITE::coreo_uni_util_jsrunner.tags-rollup-s3.return
+  '
+  payload_type 'text'
+  endpoint ({
+      :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT}', :subject => 'CloudCoreo s3 advisor alerts on PLAN::stack_name :: PLAN::name'
+  })
+end
+=begin
+  AWS S3 END
+=end
