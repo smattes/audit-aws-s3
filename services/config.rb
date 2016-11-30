@@ -249,7 +249,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
                 "violations": COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
   function <<-EOH
 const CloudCoreoJSRunner = require('cloudcoreo-jsrunner-commons');
-const AuditS3 = new CloudCoreoJSRunner(json_input, false, "${AUDIT_AWS_S3_ALERT_NO_OWNER_RECIPIENT}", "${AUDIT_AWS_S3_OWNER_TAG}");
+const AuditS3 = new CloudCoreoJSRunner(json_input, false, "${AUDIT_AWS_S3_ALERT_NO_OWNER_RECIPIENT}", "${AUDIT_AWS_S3_OWNER_TAG}", 's3');
 const notifiers = AuditS3.getNotifiers();
 callback(notifiers);
   EOH
