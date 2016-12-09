@@ -77,5 +77,5 @@ This repo is designed to work with CloudCoreo. It will monitor S3 against best p
 
 
 ## Icon
-
+![icon](https://raw.githubusercontent.com/CloudCoreo/audit-aws-s3/master/images/icon.png "icon")
 
