@@ -250,8 +250,8 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   function <<-EOH
   
 const JSON = json_input;
-const NO_OWNER_EMAIL = "${AUDIT_AWS_S3_RECIPIENT}";
-const OWNER_TAG = "${AUDIT_AWS_S3_ALERT_NO_OWNER_RECIPIENT}";
+const NO_OWNER_EMAIL = "${AUDIT_AWS_S3_ALERT_NO_OWNER_RECIPIENT}";
+const OWNER_TAG = "${AUDIT_AWS_S3_OWNER_TAG}";
 const AUDIT_NAME = 's3';
 const IS_KILL_SCRIPTS_SHOW = false;
 const EC2_LOGIC = ''; // you can choose 'and' or 'or';
