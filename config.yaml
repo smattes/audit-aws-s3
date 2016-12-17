@@ -27,16 +27,6 @@ variables:
     required: true
     type: string
     default:
-  AUDIT_AWS_S3_OWNER_TAG:
-    description: "Enter an AWS tag whose value is an email address of owner of the sS3 object. (Optional)"
-    required: false
-    type: string
-    default: "NOT_A_TAG"
-  AUDIT_AWS_S3_FULL_JSON_REPORT:
-    description: "Would you like to send the full JSON report? Options - notify / nothing. Default is notify."
-    required: true
-    type: string
-    default: "nothing"
   AUDIT_AWS_S3_OWNERS_HTML_REPORT:
     description: "Would you like to send the AWS owner tag report(s)? Options - notify / nothing. Default is no / nothing."
     required: true
@@ -72,21 +62,6 @@ variables:
     required: true
     type: string
     default: "nothing"
-  AUDIT_AWS_S3_ROLLUP_REPORT:
-    description: "Would you like to send a Summary ELB report? Options - notify / nothing. Default is no / nothing."
-    required: true
-    type: string
-    default: "nothing"
-  AUDIT_AWS_S3_OWNERS_HTML_REPORT:
-    description: notify or nothing
-    required: true
-    type: string
-    default: "notify"
-  AUDIT_AWS_S3_ALERT_RECIPIENT_2:
-    description: "Enter the email address(es) that will receive notifications for objects with no owner tag (Optional, only if owner tag is enabled)."
-    required: true
-    type: string
-    default:
   AUDIT_AWS_S3_OWNER_TAG:
     description: "Enter an AWS tag whose value is an email address of owner of the ELB object. (Optional)"
     required: false
