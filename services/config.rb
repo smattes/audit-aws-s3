@@ -217,7 +217,7 @@ end
   HTML SEND METHOD
 =end
 coreo_uni_util_notify "advise-s3-json" do
-  action :${AUDIT_AWS_S3_FULL_JSON_REPORT}
+  action :nothing
   type 'email'
   allow_empty ${AUDIT_AWS_S3_ALLOW_EMPTY}
   send_on '${AUDIT_AWS_S3_SEND_ON}'
@@ -250,7 +250,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   function <<-EOH
  
 const JSON = json_input;
-const NO_OWNER_EMAIL = "${AUDIT_AWS_S3_ALERT_RECIPIENT_2}";
+const NO_OWNER_EMAIL = "${AUDIT_AWS_S3_ALERT_RECIPIENT}";
 const OWNER_TAG = "${AUDIT_AWS_S3_OWNER_TAG}";
 const AUDIT_NAME = 's3';
 const ARE_KILL_SCRIPTS_SHOWN = false;
@@ -304,7 +304,7 @@ end
 
 
 coreo_uni_util_notify "advise-s3-to-tag-values" do
-  action :${AUDIT_AWS_S3_OWNERS_HTML_REPORT}
+  action :${AUDIT_AWS_S3_HTML_REPORT}
   notifiers 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.return'
 end
 
@@ -329,7 +329,7 @@ end
 coreo_uni_util_notify "advise-s3-rollup" do
   action :${AUDIT_AWS_S3_ROLLUP_REPORT}
   type 'email'
-  allow_empty true
+  allow_empty ${AUDIT_AWS_S3_ALLOW_EMPTY}
   send_on '${AUDIT_AWS_S3_SEND_ON}'
   payload '
 composite name: PLAN::stack_name
@@ -343,7 +343,7 @@ COMPOSITE::coreo_uni_util_jsrunner.tags-rollup-s3.return
   '
   payload_type 'text'
   endpoint ({
-      :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT_2}', :subject => 'CloudCoreo s3 advisor alerts on PLAN::stack_name :: PLAN::name'
+      :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT}', :subject => 'CloudCoreo s3 advisor alerts on PLAN::stack_name :: PLAN::name'
   })
 end
 =begin
