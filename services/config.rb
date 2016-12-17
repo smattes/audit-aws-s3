@@ -220,7 +220,7 @@ coreo_uni_util_notify "advise-s3-json" do
   action :${AUDIT_AWS_S3_FULL_JSON_REPORT}
   type 'email'
   allow_empty ${AUDIT_AWS_S3_ALLOW_EMPTY}
-  send_on 'always'
+  send_on '${AUDIT_AWS_S3_SEND_ON}'
   payload '{"composite name":"PLAN::stack_name",
   "plan name":"PLAN::name",
   "number_of_checks":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_checks",
@@ -267,7 +267,7 @@ const VARIABLES = {
 };
 
 const CloudCoreoJSRunner = require('cloudcoreo-jsrunner-commons');
-const AuditS3 = new CloudCoreoJSRunner(JSON, VARIABLES);
+const AuditS3 = new CloudCoreoJSRunner(json_input, false, "${AUDIT_AWS_S3_ALERT_RECIPIENT_2}", "${AUDIT_AWS_S3_OWNER_TAG}", 's3');
 const notifiers = AuditS3.getNotifiers();
 
 callback(notifiers);
@@ -300,7 +300,7 @@ coreo_uni_util_notify "advise-s3-rollup" do
   action :${AUDIT_AWS_S3_ROLLUP_REPORT}
   type 'email'
   allow_empty true
-  send_on 'always'
+  send_on '${AUDIT_AWS_S3_SEND_ON}'
   payload '
 composite name: PLAN::stack_name
 plan name: PLAN::name
