@@ -22,6 +22,11 @@ variables:
     required: true
     type: string
     default:
+  AUDIT_AWS_S3_ALERT_RECIPIENT_2:
+      description: "Enter the email address(es) that will receive notifications. If more than one, separate each with a comma."
+      required: true
+      type: string
+      default:
   AUDIT_AWS_S3_HTML_REPORT:
     description: "Would you like to send the AWS owner tag report(s)? Options - notify / nothing. Default is no / nothing."
     required: true
