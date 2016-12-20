@@ -347,9 +347,6 @@ coreo_uni_util_notify "advise-s3-rollup" do
   payload '
 composite name: PLAN::stack_name
 plan name: PLAN::name
-number_of_violations: COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_violations
-
-rollup report:
 COMPOSITE::coreo_uni_util_jsrunner.tags-rollup-s3.return
   '
   payload_type 'text'
