@@ -18,7 +18,7 @@ variables:
       - s3-world-open-policy-all
       - s3-only-ip-based-policy
   AUDIT_AWS_S3_ALERT_RECIPIENT:
-    description: "Enter the email address(es) that will receive notifications. If more than one, separate each with a comma."
+    description: "Enter the email address(es) that will receive rollup report and json"
     required: true
     type: string
     default:
