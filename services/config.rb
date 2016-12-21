@@ -239,7 +239,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.2.3"
+                   :version => "1.2.6"
                }       ])
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
@@ -249,7 +249,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   function <<-EOH
  
 const JSON = json_input;
-const NO_OWNER_EMAIL = "${AUDIT_AWS_S3_ALERT_RECIPIENT_2}";
+const NO_OWNER_EMAIL = "${AUDIT_AWS_S3_ALERT_RECIPIENT}";
 const OWNER_TAG = "${AUDIT_AWS_S3_OWNER_TAG}";
 const ALLOW_EMPTY = "${AUDIT_AWS_S3_ALLOW_EMPTY}";
 const SEND_ON = "${AUDIT_AWS_S3_SEND_ON}";
