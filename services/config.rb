@@ -217,7 +217,7 @@ end
   HTML SEND METHOD
 =end
 coreo_uni_util_notify "advise-s3-json" do
-  action :nothing
+  action :notify
   type 'email'
   allow_empty ${AUDIT_AWS_S3_ALLOW_EMPTY}
   send_on '${AUDIT_AWS_S3_SEND_ON}'
@@ -239,7 +239,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.2.6"
+                   :version => "1.3.3"
                }       ])
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
