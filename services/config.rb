@@ -37,7 +37,7 @@ coreo_aws_advisor_alert "s3-allusers-read" do
   description "Bucket has permissions (ACL) which let anyone list the bucket contents."
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to list the bucket."
-  level "Alert"
+  level "Critical"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
