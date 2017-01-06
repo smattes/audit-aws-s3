@@ -239,12 +239,10 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.3.3"
+                   :version => "1.3.7"
                }       ])
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
-                "number_of_checks":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_checks",
-                "number_violations_ignored":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_ignored_violations",
                 "violations": COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
   function <<-EOH
  
