@@ -65,7 +65,7 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
   link "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write-acp.html"
   display_name "All authenticated AWS users can change bucket permissions"
   description "Bucket has permissions ( ACP / ACL) which let any AWS user modify the permissions."
-  category "dataloss"
+  category "Dataloss"
   suggested_action "Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions."
   level "danger"
   objectives    [ "bucket_acl","bucket_acl"]
