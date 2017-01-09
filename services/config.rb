@@ -12,6 +12,7 @@ coreo_aws_advisor_alert "s3-allusers-write" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AllUsers/i, "write"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-allusers-write-acp" do
@@ -27,6 +28,7 @@ coreo_aws_advisor_alert "s3-allusers-write-acp" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AllUsers/i, "write_acp"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-allusers-read" do
@@ -42,6 +44,7 @@ coreo_aws_advisor_alert "s3-allusers-read" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AllUsers/i, "read"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-authenticatedusers-write" do
@@ -57,6 +60,7 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AuthenticatedUsers/i, "write"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
@@ -72,6 +76,7 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AuthenticatedUsers/i, "write_acp"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-authenticatedusers-read" do
@@ -87,6 +92,7 @@ coreo_aws_advisor_alert "s3-authenticatedusers-read" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AuthenticatedUsers/i, "read"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-logging-disabled" do
@@ -102,6 +108,7 @@ coreo_aws_advisor_alert "s3-logging-disabled" do
   audit_objects [""]
   operators     ["=="]
   alert_when    [nil]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-delete" do
@@ -118,6 +125,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-delete" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   alert_when    [/s3:Delete*/]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-get" do
@@ -134,6 +142,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-get" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   alert_when    [/s3:Get*/]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-list" do
@@ -150,6 +159,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-list" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   alert_when    [/s3:List*/]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-put" do
@@ -166,6 +176,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-put" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   alert_when    [/s3:Put*/]
+  id_map "modifiers.bucket_name"
 end
 
 # note we changed the regex and metadata on this rule so the KB link will need to be re-validated (that is why its commented out)
@@ -184,6 +195,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-all" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   alert_when    [/[^\[\]\{\}]/]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-only-ip-based-policy" do
@@ -200,6 +212,7 @@ coreo_aws_advisor_alert "s3-only-ip-based-policy" do
   formulas      ["jmespath.Statement[*].[Effect, Condition]"]
   operators     ["=~"]
   alert_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_s3 "advise-s3" do
