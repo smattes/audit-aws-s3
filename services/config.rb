@@ -168,12 +168,10 @@ coreo_aws_advisor_alert "s3-world-open-policy-put" do
   alert_when    [/s3:Put*/]
 end
 
-# note we changed the regex and metadata on this rule so the KB link will need to be re-validated (that is why its commented out)
-#
 coreo_aws_advisor_alert "s3-world-open-policy-all" do
   action :define
   service :s3
-  #link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html"
+  link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html"
   display_name "Bucket policy gives the world permission to do anything in the bucket"
   description "Bucket policy gives the world permission to do anything in the bucket"
   category "Dataloss"
