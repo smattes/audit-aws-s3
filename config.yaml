@@ -1,6 +1,6 @@
 variables:
   AUDIT_AWS_S3_ALERT_LIST:
-    description: "Which alerts would you like to check for? (Default is all S3 alerts)"
+    description: "Which alerts would you like to check for? Default is all S3 alerts."
     required: true
     type: array
     default:
@@ -18,17 +18,17 @@ variables:
       - s3-world-open-policy-all
       - s3-only-ip-based-policy
   AUDIT_AWS_S3_ALERT_RECIPIENT:
-    description: "Enter the email address(es) that will receive rollup report and json"
+    description: "Enter the email address(es) that will receive notifiers. If more than one, separate each with a comma."
     required: true
     type: string
     default:
   AUDIT_AWS_S3_HTML_REPORT:
-    description: "Would you like to send the AWS owner tag report(s)? Options - notify / nothing. Default is no / nothing."
+    description: "Would you like to send a full S3 report? This is an email that details any violations found and includes a list of the violating cloud objects. Options - notify / nothing. Default is notify."
     required: true
     type: string
     default: "notify"
   AUDIT_AWS_S3_ROLLUP_REPORT:
-    description: "Would you like to send a Summary S3 report? Options - notify / nothing. Default is no / nothing."
+    description: "Would you like to send a rollup S3 report? This is a short email that summarizes the number of checks performed and the number of violations found. Options - notify / nothing. Default is nothing."
     required: true
     type: string
     default: "nothing"
@@ -43,7 +43,7 @@ variables:
     type: string
     default: "change"
   AUDIT_AWS_S3_REGIONS:
-    description: "List of AWS regions to check. Default is us-east-1,us-west-1,us-west-2."
+    description: "List of AWS regions to check. Default is us-east-1,us-east-2,us-west-1,us-west-2,eu-west-1."
     required: true
     type: array
     default:
@@ -53,7 +53,7 @@ variables:
         - us-west-2
         - eu-west-1
   AUDIT_AWS_S3_OWNER_TAG:
-    description: "Enter an AWS tag whose value is an email address of owner of the ELB object. (Optional)"
+    description: "Enter an AWS tag whose value is an email address of the owner of the S3 object. (Optional)"
     required: false
     type: string
     default: "NOT_A_TAG"
