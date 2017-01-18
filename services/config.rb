@@ -1,4 +1,3 @@
-
 coreo_aws_advisor_alert "s3-allusers-write" do
   action :define
   service :s3
@@ -12,6 +11,7 @@ coreo_aws_advisor_alert "s3-allusers-write" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AllUsers/i, "write"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-allusers-write-acp" do
@@ -27,6 +27,7 @@ coreo_aws_advisor_alert "s3-allusers-write-acp" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AllUsers/i, "write_acp"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-allusers-read" do
@@ -37,11 +38,12 @@ coreo_aws_advisor_alert "s3-allusers-read" do
   description "Bucket has permissions (ACL) which let anyone list the bucket contents."
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to list the bucket."
-  level "Alert"
+  level "Critical"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AllUsers/i, "read"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-authenticatedusers-write" do
@@ -57,6 +59,7 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AuthenticatedUsers/i, "write"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
@@ -67,11 +70,12 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
   description "Bucket has permissions ( ACP / ACL) which let any AWS user modify the permissions."
   category "Dataloss"
   suggested_action "Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions."
-  level "danger"
+  level "Danger"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AuthenticatedUsers/i, "write_acp"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-authenticatedusers-read" do
@@ -82,11 +86,12 @@ coreo_aws_advisor_alert "s3-authenticatedusers-read" do
   description "Bucket has permissions (ACL) which let any AWS user list the bucket contents."
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to list the bucket."
-  level "Alert"
+  level "Critical"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   alert_when    [/AuthenticatedUsers/i, "read"]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-logging-disabled" do
@@ -102,6 +107,7 @@ coreo_aws_advisor_alert "s3-logging-disabled" do
   audit_objects [""]
   operators     ["=="]
   alert_when    [nil]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-delete" do
@@ -118,6 +124,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-delete" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   alert_when    [/s3:Delete*/]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-get" do
@@ -134,6 +141,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-get" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   alert_when    [/s3:Get*/]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-list" do
@@ -144,12 +152,13 @@ coreo_aws_advisor_alert "s3-world-open-policy-list" do
   description "Bucket policy allows the world to list the contents of the affected bucket"
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables the world to list the contents of this bucket."
-  level "danger"
+  level "Danger"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   alert_when    [/s3:List*/]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-world-open-policy-put" do
@@ -160,20 +169,19 @@ coreo_aws_advisor_alert "s3-world-open-policy-put" do
   description "Bucket policy allows the world to put data into the affected bucket."
   category "Dataloss"
   suggested_action "Remove the bucket permission that enables the world to put (and overwrite) data in this bucket."
-  level "danger"
+  level "Danger"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   alert_when    [/s3:Put*/]
+  id_map "modifiers.bucket_name"
 end
 
-# note we changed the regex and metadata on this rule so the KB link will need to be re-validated (that is why its commented out)
-#
 coreo_aws_advisor_alert "s3-world-open-policy-all" do
   action :define
   service :s3
-  #link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html"
+  link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html"
   display_name "Bucket policy gives the world permission to do anything in the bucket"
   description "Bucket policy gives the world permission to do anything in the bucket"
   category "Dataloss"
@@ -184,6 +192,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-all" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   alert_when    [/[^\[\]\{\}]/]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_alert "s3-only-ip-based-policy" do
@@ -200,6 +209,7 @@ coreo_aws_advisor_alert "s3-only-ip-based-policy" do
   formulas      ["jmespath.Statement[*].[Effect, Condition]"]
   operators     ["=~"]
   alert_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
+  id_map "modifiers.bucket_name"
 end
 
 coreo_aws_advisor_s3 "advise-s3" do
