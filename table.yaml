@@ -50,6 +50,3 @@ s3-only-ip-based-policy:
   "AWS Object ID": "__OBJECT__~https://console.aws.amazon.com/s3/home?region=+__OBJECT__.violations.__RULE__.region+#&bucket=+__OBJECT__+&prefix="
   "AWS Region": "+__OBJECT__.violations.__RULE__.region+"
   "AWS Tags": "__TAGS__"
-
-
-

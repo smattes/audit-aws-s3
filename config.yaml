@@ -4,29 +4,29 @@ variables:
     required: true
     type: array
     default:
-      - s3-allusers-write
-      - s3-allusers-write-acp
-      - s3-allusers-read
-      - s3-authenticatedusers-write
-      - s3-authenticatedusers-write-acp
-      - s3-authenticatedusers-read
-      - s3-logging-disabled
-      - s3-world-open-policy-delete
-      - s3-world-open-policy-get
-      - s3-world-open-policy-list
-      - s3-world-open-policy-put
-      - s3-world-open-policy-all
-      - s3-only-ip-based-policy
+       - s3-allusers-write
+       - s3-allusers-write-acp
+       - s3-allusers-read
+       - s3-authenticatedusers-write
+       - s3-authenticatedusers-write-acp
+       - s3-authenticatedusers-read
+       - s3-logging-disabled
+       - s3-world-open-policy-delete
+       - s3-world-open-policy-get
+       - s3-world-open-policy-list
+       - s3-world-open-policy-put
+       - s3-world-open-policy-all
+       - s3-only-ip-based-policy
   AUDIT_AWS_S3_ALERT_RECIPIENT:
     description: "Enter the email address(es) that will receive notifiers. If more than one, separate each with a comma."
-    required: true
+    required: false
     type: string
     default:
   AUDIT_AWS_S3_HTML_REPORT:
     description: "Would you like to send a full S3 report? This is an email that details any violations found and includes a list of the violating cloud objects. Options - notify / nothing. Default is notify."
     required: true
     type: string
-    default: "notify"
+    default: "nothing"
   AUDIT_AWS_S3_ROLLUP_REPORT:
     description: "Would you like to send a rollup S3 report? This is a short email that summarizes the number of checks performed and the number of violations found. Options - notify / nothing. Default is nothing."
     required: true

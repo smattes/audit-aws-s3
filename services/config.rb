@@ -1,3 +1,6 @@
+###########################################
+# User Visible Rule Definitions
+###########################################
 
 coreo_aws_advisor_alert "s3-allusers-write" do
   action :define
@@ -213,6 +216,11 @@ coreo_aws_advisor_alert "s3-only-ip-based-policy" do
   id_map "modifiers.bucket_name"
 end
 
+###########################################
+# Compsite-Internal Resources follow until end
+#   (Resources used by the system for execution and display processing)
+###########################################
+
 coreo_aws_advisor_s3 "advise-s3" do
   action :advise
   alerts ${AUDIT_AWS_S3_ALERT_LIST}
@@ -227,6 +235,115 @@ end
   JSON SEND METHOD
   HTML SEND METHOD
 =end
+
+coreo_uni_util_jsrunner "jsrunner-process-suppression-s3" do
+  action :run
+  provide_composite_access true
+  json_input '{"violations":COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
+  packages([
+               {
+                   :name => "js-yaml",
+                   :version => "3.7.0"
+               }       ])
+  function <<-EOH
+  var fs = require('fs');
+  var yaml = require('js-yaml');
+  let suppression;
+  try {
+      suppression = yaml.safeLoad(fs.readFileSync('./suppression.yaml', 'utf8'));
+  } catch (e) {
+  }
+  coreoExport('suppression', JSON.stringify(suppression));
+  var violations = json_input.violations;
+  var result = {};
+    var file_date = null;
+    for (var violator_id in violations) {
+        result[violator_id] = {};
+        result[violator_id].tags = violations[violator_id].tags;
+        result[violator_id].violations = {}
+        for (var rule_id in violations[violator_id].violations) {
+            is_violation = true;
+ 
+            result[violator_id].violations[rule_id] = violations[violator_id].violations[rule_id];
+            for (var suppress_rule_id in suppression) {
+                for (var suppress_violator_num in suppression[suppress_rule_id]) {
+                    for (var suppress_violator_id in suppression[suppress_rule_id][suppress_violator_num]) {
+                        file_date = null;
+                        var suppress_obj_id_time = suppression[suppress_rule_id][suppress_violator_num][suppress_violator_id];
+                        if (rule_id === suppress_rule_id) {
+ 
+                            if (violator_id === suppress_violator_id) {
+                                var now_date = new Date();
+ 
+                                if (suppress_obj_id_time === "") {
+                                    suppress_obj_id_time = new Date();
+                                } else {
+                                    file_date = suppress_obj_id_time;
+                                    suppress_obj_id_time = file_date;
+                                }
+                                var rule_date = new Date(suppress_obj_id_time);
+                                if (isNaN(rule_date.getTime())) {
+                                    rule_date = new Date(0);
+                                }
+ 
+                                if (now_date <= rule_date) {
+ 
+                                    is_violation = false;
+ 
+                                    result[violator_id].violations[rule_id]["suppressed"] = true;
+                                    if (file_date != null) {
+                                        result[violator_id].violations[rule_id]["suppressed_until"] = file_date;
+                                        result[violator_id].violations[rule_id]["suppression_expired"] = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+ 
+                }
+            }
+            if (is_violation) {
+ 
+                if (file_date !== null) {
+                    result[violator_id].violations[rule_id]["suppressed_until"] = file_date;
+                    result[violator_id].violations[rule_id]["suppression_expired"] = true;
+                } else {
+                    result[violator_id].violations[rule_id]["suppression_expired"] = false;
+                }
+                result[violator_id].violations[rule_id]["suppressed"] = false;
+            }
+        }
+    }
+ 
+    var rtn = result;
+  
+  var rtn = result;
+  
+  callback(result);
+  EOH
+end
+
+coreo_uni_util_jsrunner "jsrunner-process-table-s3" do
+  action :run
+  provide_composite_access true
+  json_input '{"violations":COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
+  packages([
+               {
+                   :name => "js-yaml",
+                   :version => "3.7.0"
+               }       ])
+  function <<-EOH
+    var fs = require('fs');
+    var yaml = require('js-yaml');
+    try {
+        var table = yaml.safeLoad(fs.readFileSync('./table.yaml', 'utf8'));
+    } catch (e) {
+    }
+    coreoExport('table', JSON.stringify(table));
+    callback(table);
+  EOH
+end
+
 coreo_uni_util_notify "advise-s3-json" do
   action :nothing
   type 'email'
@@ -250,68 +367,39 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.3.9"
+                   :version => "1.6.0"
                }       ])
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
-                "violations": COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
+                "table": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-table-s3.return,
+                "violations": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-suppression-s3.return}'
   function <<-EOH
  
-const JSON = json_input;
+const JSON_INPUT = json_input;
 const NO_OWNER_EMAIL = "${AUDIT_AWS_S3_ALERT_RECIPIENT}";
 const OWNER_TAG = "${AUDIT_AWS_S3_OWNER_TAG}";
 const ALLOW_EMPTY = "${AUDIT_AWS_S3_ALLOW_EMPTY}";
 const SEND_ON = "${AUDIT_AWS_S3_SEND_ON}";
 const AUDIT_NAME = 's3';
+const TABLES = json_input['table'];
+const SHOWN_NOT_SORTED_VIOLATIONS_COUNTER = false;
 
-const ARE_KILL_SCRIPTS_SHOWN = false;
-const EC2_LOGIC = ''; // you can choose 'and' or 'or';
-const EXPECTED_TAGS = ['example_2', 'example_1'];
-
-const WHAT_NEED_TO_SHOWN = {
-    OBJECT_ID: {
-        headerName: 'AWS Object ID',
-        isShown: true,
-    },
-    REGION: {
-        headerName: 'Region',
-        isShown: true,
-    },
-    AWS_CONSOLE: {
-        headerName: 'AWS Console',
-        isShown: true,
-    },
-    TAGS: {
-        headerName: 'Tags',
-        isShown: true,
-    },
-    AMI: {
-        headerName: 'AMI',
-        isShown: false,
-    },
-    KILL_SCRIPTS: {
-        headerName: 'Kill Cmd',
-        isShown: false,
-    }
+const WHAT_NEED_TO_SHOWN_ON_TABLE = {
+    OBJECT_ID: { headerName: 'AWS Object ID', isShown: true},
+    REGION: { headerName: 'Region', isShown: true },
+    AWS_CONSOLE: { headerName: 'AWS Console', isShown: true },
+    TAGS: { headerName: 'Tags', isShown: true },
+    AMI: { headerName: 'AMI', isShown: false },
+    KILL_SCRIPTS: { headerName: 'Kill Cmd', isShown: false }
 };
 
-const VARIABLES = {
-    NO_OWNER_EMAIL,
-    OWNER_TAG,
-    AUDIT_NAME,
-    ARE_KILL_SCRIPTS_SHOWN,
-    EC2_LOGIC,
-    EXPECTED_TAGS,
-    WHAT_NEED_TO_SHOWN,
-    ALLOW_EMPTY,
-    SEND_ON
-};
-
+const VARIABLES = { NO_OWNER_EMAIL, OWNER_TAG, AUDIT_NAME,
+    WHAT_NEED_TO_SHOWN_ON_TABLE, ALLOW_EMPTY, SEND_ON,
+    undefined, undefined, SHOWN_NOT_SORTED_VIOLATIONS_COUNTER};
 
 const CloudCoreoJSRunner = require('cloudcoreo-jsrunner-commons');
-const AuditS3 = new CloudCoreoJSRunner(JSON, VARIABLES);
+const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, VARIABLES, TABLES);
 const notifiers = AuditS3.getNotifiers();
-
 callback(notifiers);
   EOH
 end
@@ -334,7 +422,7 @@ let numberOfViolations = 0;
 for (var entry=0; entry < json_input.length; entry++) {
     if (json_input[entry]['endpoint']['to'].length) {
         numberOfViolations += parseInt(json_input[entry]['num_violations']);
-        emailText += "recipient: " + json_input[entry]['endpoint']['to'] + " - " + "nViolations: " + json_input[entry]['num_violations'] + "\\n";
+        emailText += "recipient: " + json_input[entry]['endpoint']['to'] + " - " + "Violations: " + json_input[entry]['num_violations'] + "\\n";
     }
 }
 
