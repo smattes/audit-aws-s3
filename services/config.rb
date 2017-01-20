@@ -1,3 +1,7 @@
+###########################################
+# User Visible Rule Definitions
+###########################################
+
 coreo_aws_advisor_alert "s3-allusers-write" do
   action :define
   service :s3
@@ -211,6 +215,11 @@ coreo_aws_advisor_alert "s3-only-ip-based-policy" do
   alert_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
   id_map "modifiers.bucket_name"
 end
+
+###########################################
+# Compsite-Internal Resources follow until end
+#   (Resources used by the system for execution and display processing)
+###########################################
 
 coreo_aws_advisor_s3 "advise-s3" do
   action :advise
