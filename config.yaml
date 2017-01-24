@@ -23,7 +23,7 @@ variables:
     type: string
     default:
   AUDIT_AWS_S3_HTML_REPORT:
-    description: "Would you like to send a full S3 report? This is an email that details any violations found and includes a list of the violating cloud objects. Options - notify / nothing. Default is notify."
+    description: "Would you like to send a full S3 report? This is an email that details any violations found and includes a list of the violating cloud objects. Options - notify / nothing. Default is nothing."
     required: true
     type: string
     default: "nothing"
