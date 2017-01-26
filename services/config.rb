@@ -74,7 +74,7 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
   description "Bucket has permissions ( ACP / ACL) which let any AWS user modify the permissions."
   category "Dataloss"
   suggested_action "Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions."
-  level "Danger"
+  level "Emergency"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
@@ -156,7 +156,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-list" do
   description "Bucket policy allows the world to list the contents of the affected bucket"
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables the world to list the contents of this bucket."
-  level "Danger"
+  level "Critical"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
@@ -173,7 +173,7 @@ coreo_aws_advisor_alert "s3-world-open-policy-put" do
   description "Bucket policy allows the world to put data into the affected bucket."
   category "Dataloss"
   suggested_action "Remove the bucket permission that enables the world to put (and overwrite) data in this bucket."
-  level "Danger"
+  level "Critical"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
