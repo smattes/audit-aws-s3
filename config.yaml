@@ -1,7 +1,7 @@
 variables:
   AUDIT_AWS_S3_ALERT_LIST:
     description: "Which alerts would you like to check for? Default is all S3 alerts."
-    required: true
+    required: false
     type: array
     default:
        - s3-allusers-write
