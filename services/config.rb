@@ -1,6 +1,3 @@
-###########################################
-# User Visible Rule Definitions
-###########################################
 
 coreo_aws_advisor_alert "s3-allusers-write" do
   action :define
@@ -216,11 +213,6 @@ coreo_aws_advisor_alert "s3-only-ip-based-policy" do
   id_map "modifiers.bucket_name"
 end
 
-###########################################
-# Compsite-Internal Resources follow until end
-#   (Resources used by the system for execution and display processing)
-###########################################
-
 coreo_aws_advisor_s3 "advise-s3" do
   action :advise
   alerts ${AUDIT_AWS_S3_ALERT_LIST}
@@ -229,12 +221,6 @@ coreo_aws_advisor_s3 "advise-s3" do
   bucket_name /.*/
   global_modifier({:bucket_name => "buckets.name"})
 end
-
-=begin
-  START AWS S3 METHODS
-  JSON SEND METHOD
-  HTML SEND METHOD
-=end
 
 coreo_uni_util_jsrunner "jsrunner-process-suppression-s3" do
   action :run
@@ -323,6 +309,13 @@ coreo_uni_util_jsrunner "jsrunner-process-suppression-s3" do
   EOH
 end
 
+coreo_uni_util_variables "s3-for-suppression-update-advisor-output" do
+  action :set
+  variables([
+                {'COMPOSITE::coreo_aws_advisor_s3.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-suppression-s3.return'}
+            ])
+end
+
 coreo_uni_util_jsrunner "jsrunner-process-table-s3" do
   action :run
   provide_composite_access true
@@ -344,30 +337,13 @@ coreo_uni_util_jsrunner "jsrunner-process-table-s3" do
   EOH
 end
 
-coreo_uni_util_notify "advise-s3-json" do
-  action :nothing
-  type 'email'
-  allow_empty ${AUDIT_AWS_S3_ALLOW_EMPTY}
-  send_on '${AUDIT_AWS_S3_SEND_ON}'
-  payload '{"composite name":"PLAN::stack_name",
-  "plan name":"PLAN::name",
-  "number_of_checks":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_checks",
-  "number_of_violations":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_violations",
-  "number_violations_ignored":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_ignored_violations",
-  "violations": COMPOSITE::coreo_aws_advisor_s3.advise-s3.report }'
-  payload_type "json"
-  endpoint ({
-      :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT}', :subject => 'CloudCoreo s3 advisor alerts on PLAN::stack_name :: PLAN::name'
-  })
-end
-
 coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   action :run
   data_type "json"
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.6.4"
+                   :version => "1.6.9"
                }       ])
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
@@ -380,30 +356,18 @@ const NO_OWNER_EMAIL = "${AUDIT_AWS_S3_ALERT_RECIPIENT}";
 const OWNER_TAG = "${AUDIT_AWS_S3_OWNER_TAG}";
 const ALLOW_EMPTY = "${AUDIT_AWS_S3_ALLOW_EMPTY}";
 const SEND_ON = "${AUDIT_AWS_S3_SEND_ON}";
-const AUDIT_NAME = 's3';
-const TABLES = json_input['table'];
 const SHOWN_NOT_SORTED_VIOLATIONS_COUNTER = false;
 
-const WHAT_NEED_TO_SHOWN_ON_TABLE = {
-    OBJECT_ID: { headerName: 'AWS Object ID', isShown: true},
-    REGION: { headerName: 'Region', isShown: true },
-    AWS_CONSOLE: { headerName: 'AWS Console', isShown: true },
-    TAGS: { headerName: 'Tags', isShown: true },
-    AMI: { headerName: 'AMI', isShown: false },
-    KILL_SCRIPTS: { headerName: 'Kill Cmd', isShown: false }
-};
-
-const VARIABLES = { NO_OWNER_EMAIL, OWNER_TAG, AUDIT_NAME,
-    WHAT_NEED_TO_SHOWN_ON_TABLE, ALLOW_EMPTY, SEND_ON,
-    undefined, undefined, SHOWN_NOT_SORTED_VIOLATIONS_COUNTER};
+const VARIABLES = { NO_OWNER_EMAIL, OWNER_TAG,
+   ALLOW_EMPTY, SEND_ON, 
+  SHOWN_NOT_SORTED_VIOLATIONS_COUNTER};
 
 const CloudCoreoJSRunner = require('cloudcoreo-jsrunner-commons');
-const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, VARIABLES, TABLES);
+const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, VARIABLES);
 const notifiers = AuditS3.getNotifiers();
 callback(notifiers);
   EOH
 end
-
 
 coreo_uni_util_notify "advise-s3-to-tag-values" do
   action :${AUDIT_AWS_S3_HTML_REPORT}
@@ -435,7 +399,6 @@ callback(rollup_string);
   EOH
 end
 
-
 coreo_uni_util_notify "advise-s3-rollup" do
   action :${AUDIT_AWS_S3_ROLLUP_REPORT}
   type 'email'
@@ -451,6 +414,3 @@ COMPOSITE::coreo_uni_util_jsrunner.tags-rollup-s3.return
       :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT}', :subject => 'CloudCoreo s3 advisor alerts on PLAN::stack_name :: PLAN::name'
   })
 end
-=begin
-  AWS S3 END
-=end
