@@ -284,7 +284,7 @@ coreo_uni_util_jsrunner "jsrunner-process-suppression-s3" do
       violationRuleKey, suppressRuleKey,
       violationObjectIdKey, regionKey
   ) {
-      let file_date = null;
+      file_date = null;
       let suppressDate = suppressionObject[suppressObjectIdKey];
       const areViolationsEqual = violationRuleKey === suppressRuleKey && violationObjectIdKey === suppressObjectIdKey;
       if (areViolationsEqual) {
