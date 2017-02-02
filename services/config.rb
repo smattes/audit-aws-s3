@@ -1,5 +1,5 @@
 
-coreo_aws_advisor_alert "s3-allusers-write" do
+coreo_aws_rule "s3-allusers-write" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-allusers-write.html"
@@ -11,11 +11,11 @@ coreo_aws_advisor_alert "s3-allusers-write" do
   objectives    ["bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AllUsers/i, "write"]
+  raise_when    [/AllUsers/i, "write"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-allusers-write-acp" do
+coreo_aws_rule "s3-allusers-write-acp" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-allusers-write-acp.html"
@@ -27,11 +27,11 @@ coreo_aws_advisor_alert "s3-allusers-write-acp" do
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AllUsers/i, "write_acp"]
+  raise_when    [/AllUsers/i, "write_acp"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-allusers-read" do
+coreo_aws_rule "s3-allusers-read" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-allusers-read.html"
@@ -43,11 +43,11 @@ coreo_aws_advisor_alert "s3-allusers-read" do
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AllUsers/i, "read"]
+  raise_when    [/AllUsers/i, "read"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-authenticatedusers-write" do
+coreo_aws_rule "s3-authenticatedusers-write" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write.html"
@@ -59,11 +59,11 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write" do
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AuthenticatedUsers/i, "write"]
+  raise_when    [/AuthenticatedUsers/i, "write"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
+coreo_aws_rule "s3-authenticatedusers-write-acp" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write-acp.html"
@@ -75,11 +75,11 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AuthenticatedUsers/i, "write_acp"]
+  raise_when    [/AuthenticatedUsers/i, "write_acp"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-authenticatedusers-read" do
+coreo_aws_rule "s3-authenticatedusers-read" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-read.html"
@@ -91,11 +91,11 @@ coreo_aws_advisor_alert "s3-authenticatedusers-read" do
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AuthenticatedUsers/i, "read"]
+  raise_when    [/AuthenticatedUsers/i, "read"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-logging-disabled" do
+coreo_aws_rule "s3-logging-disabled" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html"
@@ -107,11 +107,11 @@ coreo_aws_advisor_alert "s3-logging-disabled" do
   objectives    ["bucket_logging"]
   audit_objects [""]
   operators     ["=="]
-  alert_when    [nil]
+  raise_when    [nil]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-world-open-policy-delete" do
+coreo_aws_rule "s3-world-open-policy-delete" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-delete.html"
@@ -124,11 +124,11 @@ coreo_aws_advisor_alert "s3-world-open-policy-delete" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/s3:Delete*/]
+  raise_when    [/s3:Delete*/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-world-open-policy-get" do
+coreo_aws_rule "s3-world-open-policy-get" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-get.html"
@@ -141,11 +141,11 @@ coreo_aws_advisor_alert "s3-world-open-policy-get" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/s3:Get*/]
+  raise_when    [/s3:Get*/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-world-open-policy-list" do
+coreo_aws_rule "s3-world-open-policy-list" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-list.html"
@@ -158,11 +158,11 @@ coreo_aws_advisor_alert "s3-world-open-policy-list" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/s3:List*/]
+  raise_when    [/s3:List*/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-world-open-policy-put" do
+coreo_aws_rule "s3-world-open-policy-put" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-put.html"
@@ -175,11 +175,11 @@ coreo_aws_advisor_alert "s3-world-open-policy-put" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/s3:Put*/]
+  raise_when    [/s3:Put*/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-world-open-policy-all" do
+coreo_aws_rule "s3-world-open-policy-all" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html"
@@ -192,11 +192,11 @@ coreo_aws_advisor_alert "s3-world-open-policy-all" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/[^\[\]\{\}]/]
+  raise_when    [/[^\[\]\{\}]/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-only-ip-based-policy" do
+coreo_aws_rule "s3-only-ip-based-policy" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-only-ip-based-policy.html"
@@ -209,13 +209,13 @@ coreo_aws_advisor_alert "s3-only-ip-based-policy" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[*].[Effect, Condition]"]
   operators     ["=~"]
-  alert_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
+  raise_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_s3 "advise-s3" do
-  action :advise
-  alerts ${AUDIT_AWS_S3_ALERT_LIST}
+coreo_aws_rule_runner_s3 "advise-s3" do
+  action :run
+  rules ${AUDIT_AWS_S3_ALERT_LIST}
 #  regions ${AUDIT_AWS_S3_REGIONS}  
   global_objective "buckets"
   bucket_name /.*/
@@ -225,7 +225,7 @@ end
 coreo_uni_util_jsrunner "jsrunner-process-suppression-s3" do
   action :run
   provide_composite_access true
-  json_input '{"violations":COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
+  json_input '{"violations":COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report}'
   packages([
                {
                    :name => "js-yaml",
@@ -314,14 +314,14 @@ end
 coreo_uni_util_variables "s3-for-suppression-update-advisor-output" do
   action :set
   variables([
-                {'COMPOSITE::coreo_aws_advisor_s3.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-suppression-s3.return'}
+                {'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-suppression-s3.return'}
             ])
 end
 
 coreo_uni_util_jsrunner "jsrunner-process-table-s3" do
   action :run
   provide_composite_access true
-  json_input '{"violations":COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
+  json_input '{"violations":COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report}'
   packages([
                {
                    :name => "js-yaml",
@@ -413,6 +413,6 @@ COMPOSITE::coreo_uni_util_jsrunner.tags-rollup-s3.return
   '
   payload_type 'text'
   endpoint ({
-      :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT}', :subject => 'CloudCoreo s3 advisor alerts on PLAN::stack_name :: PLAN::name'
+      :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT}', :subject => 'CloudCoreo s3 rule results on PLAN::stack_name :: PLAN::name'
   })
 end
