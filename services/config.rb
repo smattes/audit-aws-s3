@@ -319,14 +319,14 @@ coreo_uni_util_jsrunner "jsrunner-process-suppression-s3" do
       const wayToViolationObject = result[regionKey][objectIdKey].violations[violationRuleKey];
       wayToViolationObject["suppressed"] = true;
       if (file_date != null) {
-          wayToViolationObject["suppressed_until"] = file_date;
+          wayToViolationObject["suppression_until"] = file_date;
           wayToViolationObject["suppression_expired"] = false;
       }
   }
   
   function setSuppressionExpired(regionKey, objectIdKey, violationRuleKey, file_date) {
       if (file_date !== null) {
-          result[regionKey][objectIdKey].violations[violationRuleKey]["suppressed_until"] = file_date;
+          result[regionKey][objectIdKey].violations[violationRuleKey]["suppression_until"] = file_date;
           result[regionKey][objectIdKey].violations[violationRuleKey]["suppression_expired"] = true;
       } else {
           result[regionKey][objectIdKey].violations[violationRuleKey]["suppression_expired"] = false;
