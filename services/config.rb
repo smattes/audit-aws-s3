@@ -372,7 +372,7 @@ end
 coreo_uni_util_jsrunner "jsrunner-process-alert-list-s3" do
   action :run
   provide_composite_access true
-  json_input '{"violations":COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
+  json_input '{"violations":COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report}'
   packages([
                {
                    :name => "js-yaml",
