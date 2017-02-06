@@ -375,10 +375,11 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.7.7"
+                   :version => "1.7.8"
                }       ])
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
+                "alert list": "${AUDIT_AWS_S3_ALERT_LIST}",
                 "table": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-table-s3.return,
                 "violations": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-suppression-s3.return}'
   function <<-EOH
