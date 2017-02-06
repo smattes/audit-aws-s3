@@ -380,7 +380,6 @@ coreo_uni_util_jsrunner "jsrunner-process-alert-list-s3" do
                }       ])
   function <<-EOH
     let alertListToJSON = "${AUDIT_AWS_S3_ALERT_LIST}";
-
     let alertListArray = alertListToJSON.replace(/'/g, '"');
     callback(alertListArray);
   EOH
