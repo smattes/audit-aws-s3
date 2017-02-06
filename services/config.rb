@@ -369,6 +369,25 @@ coreo_uni_util_jsrunner "jsrunner-process-table-s3" do
   EOH
 end
 
+coreo_uni_util_jsrunner "jsrunner-process-alert-list-s3" do
+  action :run
+  provide_composite_access true
+  json_input '{"violations":COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
+  packages([
+               {
+                   :name => "js-yaml",
+                   :version => "3.7.0"
+               }       ])
+  function <<-EOH
+    let alertListToJSON = "${AUDIT_AWS_S3_ALERT_LIST}";
+
+    let regExpForArray = new RegExp(/'/g);
+    let regExpForArray = new RegExp(/'/g);
+    let alertListArray = alertListToJSON.replace(regExpForArray, """);
+    callback(alertListArray);
+  EOH
+end
+
 coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   action :run
   data_type "json"
@@ -379,7 +398,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
                }       ])
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
-                "alert list": "${AUDIT_AWS_S3_ALERT_LIST}",
+                "alert list": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-alert-list-s3.return,
                 "table": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-table-s3.return,
                 "violations": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-suppression-s3.return}'
   function <<-EOH
