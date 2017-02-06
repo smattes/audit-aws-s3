@@ -382,7 +382,6 @@ coreo_uni_util_jsrunner "jsrunner-process-alert-list-s3" do
     let alertListToJSON = "${AUDIT_AWS_S3_ALERT_LIST}";
 
     let regExpForArray = new RegExp(/'/g);
-    let regExpForArray = new RegExp(/'/g);
     let alertListArray = alertListToJSON.replace(regExpForArray, """);
     callback(alertListArray);
   EOH
