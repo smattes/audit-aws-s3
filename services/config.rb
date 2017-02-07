@@ -1,8 +1,5 @@
-###########################################
-# User Visible Rule Definitions
-###########################################
 
-coreo_aws_advisor_alert "s3-allusers-write" do
+coreo_aws_rule "s3-allusers-write" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-allusers-write.html"
@@ -14,11 +11,11 @@ coreo_aws_advisor_alert "s3-allusers-write" do
   objectives    ["bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AllUsers/i, "write"]
+  raise_when    [/AllUsers/i, "write"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-allusers-write-acp" do
+coreo_aws_rule "s3-allusers-write-acp" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-allusers-write-acp.html"
@@ -30,11 +27,11 @@ coreo_aws_advisor_alert "s3-allusers-write-acp" do
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AllUsers/i, "write_acp"]
+  raise_when    [/AllUsers/i, "write_acp"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-allusers-read" do
+coreo_aws_rule "s3-allusers-read" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-allusers-read.html"
@@ -46,11 +43,11 @@ coreo_aws_advisor_alert "s3-allusers-read" do
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AllUsers/i, "read"]
+  raise_when    [/AllUsers/i, "read"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-authenticatedusers-write" do
+coreo_aws_rule "s3-authenticatedusers-write" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write.html"
@@ -62,11 +59,11 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write" do
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AuthenticatedUsers/i, "write"]
+  raise_when    [/AuthenticatedUsers/i, "write"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
+coreo_aws_rule "s3-authenticatedusers-write-acp" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-write-acp.html"
@@ -78,11 +75,11 @@ coreo_aws_advisor_alert "s3-authenticatedusers-write-acp" do
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AuthenticatedUsers/i, "write_acp"]
+  raise_when    [/AuthenticatedUsers/i, "write_acp"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-authenticatedusers-read" do
+coreo_aws_rule "s3-authenticatedusers-read" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-authenticatedusers-read.html"
@@ -94,11 +91,11 @@ coreo_aws_advisor_alert "s3-authenticatedusers-read" do
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
-  alert_when    [/AuthenticatedUsers/i, "read"]
+  raise_when    [/AuthenticatedUsers/i, "read"]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-logging-disabled" do
+coreo_aws_rule "s3-logging-disabled" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-logging-disabled.html"
@@ -110,11 +107,11 @@ coreo_aws_advisor_alert "s3-logging-disabled" do
   objectives    ["bucket_logging"]
   audit_objects [""]
   operators     ["=="]
-  alert_when    [nil]
+  raise_when    [nil]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-world-open-policy-delete" do
+coreo_aws_rule "s3-world-open-policy-delete" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-delete.html"
@@ -127,11 +124,11 @@ coreo_aws_advisor_alert "s3-world-open-policy-delete" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/s3:Delete*/]
+  raise_when    [/s3:Delete*/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-world-open-policy-get" do
+coreo_aws_rule "s3-world-open-policy-get" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-get.html"
@@ -144,11 +141,11 @@ coreo_aws_advisor_alert "s3-world-open-policy-get" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/s3:Get*/]
+  raise_when    [/s3:Get*/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-world-open-policy-list" do
+coreo_aws_rule "s3-world-open-policy-list" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-list.html"
@@ -161,11 +158,11 @@ coreo_aws_advisor_alert "s3-world-open-policy-list" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/s3:List*/]
+  raise_when    [/s3:List*/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-world-open-policy-put" do
+coreo_aws_rule "s3-world-open-policy-put" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-put.html"
@@ -178,11 +175,11 @@ coreo_aws_advisor_alert "s3-world-open-policy-put" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/s3:Put*/]
+  raise_when    [/s3:Put*/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-world-open-policy-all" do
+coreo_aws_rule "s3-world-open-policy-all" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-all.html"
@@ -195,11 +192,11 @@ coreo_aws_advisor_alert "s3-world-open-policy-all" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
   operators     ["=~"]
-  alert_when    [/[^\[\]\{\}]/]
+  raise_when    [/[^\[\]\{\}]/]
   id_map "modifiers.bucket_name"
 end
 
-coreo_aws_advisor_alert "s3-only-ip-based-policy" do
+coreo_aws_rule "s3-only-ip-based-policy" do
   action :define
   service :s3
   link "http://kb.cloudcoreo.com/mydoc_s3-only-ip-based-policy.html"
@@ -212,121 +209,149 @@ coreo_aws_advisor_alert "s3-only-ip-based-policy" do
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[*].[Effect, Condition]"]
   operators     ["=~"]
-  alert_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
+  raise_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
   id_map "modifiers.bucket_name"
 end
 
-###########################################
-# Compsite-Internal Resources follow until end
-#   (Resources used by the system for execution and display processing)
-###########################################
-
-coreo_aws_advisor_s3 "advise-s3" do
-  action :advise
-  alerts ${AUDIT_AWS_S3_ALERT_LIST}
+coreo_aws_rule_runner_s3 "advise-s3" do
+  action :run
+  rules ${AUDIT_AWS_S3_ALERT_LIST}
 #  regions ${AUDIT_AWS_S3_REGIONS}  
   global_objective "buckets"
   bucket_name /.*/
   global_modifier({:bucket_name => "buckets.name"})
 end
 
-=begin
-  START AWS S3 METHODS
-  JSON SEND METHOD
-  HTML SEND METHOD
-=end
-
 coreo_uni_util_jsrunner "jsrunner-process-suppression-s3" do
   action :run
   provide_composite_access true
-  json_input '{"violations":COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
+  json_input '{"violations":COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report}'
   packages([
                {
                    :name => "js-yaml",
                    :version => "3.7.0"
                }       ])
   function <<-EOH
-  var fs = require('fs');
-  var yaml = require('js-yaml');
+  const fs = require('fs');
+  const yaml = require('js-yaml');
   let suppression;
   try {
       suppression = yaml.safeLoad(fs.readFileSync('./suppression.yaml', 'utf8'));
   } catch (e) {
   }
   coreoExport('suppression', JSON.stringify(suppression));
-  var violations = json_input.violations;
-  var result = {};
-    var file_date = null;
-    for (var violator_id in violations) {
-        result[violator_id] = {};
-        result[violator_id].tags = violations[violator_id].tags;
-        result[violator_id].violations = {}
-        for (var rule_id in violations[violator_id].violations) {
-            is_violation = true;
- 
-            result[violator_id].violations[rule_id] = violations[violator_id].violations[rule_id];
-            for (var suppress_rule_id in suppression) {
-                for (var suppress_violator_num in suppression[suppress_rule_id]) {
-                    for (var suppress_violator_id in suppression[suppress_rule_id][suppress_violator_num]) {
-                        file_date = null;
-                        var suppress_obj_id_time = suppression[suppress_rule_id][suppress_violator_num][suppress_violator_id];
-                        if (rule_id === suppress_rule_id) {
- 
-                            if (violator_id === suppress_violator_id) {
-                                var now_date = new Date();
- 
-                                if (suppress_obj_id_time === "") {
-                                    suppress_obj_id_time = new Date();
-                                } else {
-                                    file_date = suppress_obj_id_time;
-                                    suppress_obj_id_time = file_date;
-                                }
-                                var rule_date = new Date(suppress_obj_id_time);
-                                if (isNaN(rule_date.getTime())) {
-                                    rule_date = new Date(0);
-                                }
- 
-                                if (now_date <= rule_date) {
- 
-                                    is_violation = false;
- 
-                                    result[violator_id].violations[rule_id]["suppressed"] = true;
-                                    if (file_date != null) {
-                                        result[violator_id].violations[rule_id]["suppressed_until"] = file_date;
-                                        result[violator_id].violations[rule_id]["suppression_expired"] = false;
-                                    }
-                                }
-                            }
-                        }
-                    }
- 
-                }
-            }
-            if (is_violation) {
- 
-                if (file_date !== null) {
-                    result[violator_id].violations[rule_id]["suppressed_until"] = file_date;
-                    result[violator_id].violations[rule_id]["suppression_expired"] = true;
-                } else {
-                    result[violator_id].violations[rule_id]["suppression_expired"] = false;
-                }
-                result[violator_id].violations[rule_id]["suppressed"] = false;
-            }
-        }
-    }
- 
-    var rtn = result;
+  function createViolationWithSuppression(result) {
+      const regionKeys = Object.keys(violations);
+      regionKeys.forEach(regionKey => {
+          result[regionKey] = {};
+          const objectIdKeys = Object.keys(violations[regionKey]);
+          objectIdKeys.forEach(objectIdKey => {
+              createObjectId(regionKey, objectIdKey);
+          });
+      });
+  }
   
-  var rtn = result;
+  function createObjectId(regionKey, objectIdKey) {
+      const wayToResultObjectId = result[regionKey][objectIdKey] = {};
+      const wayToViolationObjectId = violations[regionKey][objectIdKey];
+      wayToResultObjectId.tags = wayToViolationObjectId.tags;
+      wayToResultObjectId.violations = {};
+      createSuppression(wayToViolationObjectId, regionKey, objectIdKey);
+  }
   
+  
+  function createSuppression(wayToViolationObjectId, regionKey, violationObjectIdKey) {
+      const ruleKeys = Object.keys(wayToViolationObjectId['violations']);
+      ruleKeys.forEach(violationRuleKey => {
+          result[regionKey][violationObjectIdKey].violations[violationRuleKey] = wayToViolationObjectId['violations'][violationRuleKey];
+          Object.keys(suppression).forEach(suppressRuleKey => {
+              suppression[suppressRuleKey].forEach(suppressionObject => {
+                  Object.keys(suppressionObject).forEach(suppressObjectIdKey => {
+                      setDateForSuppression(
+                          suppressionObject, suppressObjectIdKey,
+                          violationRuleKey, suppressRuleKey,
+                          violationObjectIdKey, regionKey
+                      );
+                  });
+              });
+          });
+      });
+  }
+  
+  
+  function setDateForSuppression(
+      suppressionObject, suppressObjectIdKey,
+      violationRuleKey, suppressRuleKey,
+      violationObjectIdKey, regionKey
+  ) {
+      file_date = null;
+      let suppressDate = suppressionObject[suppressObjectIdKey];
+      const areViolationsEqual = violationRuleKey === suppressRuleKey && violationObjectIdKey === suppressObjectIdKey;
+      if (areViolationsEqual) {
+          const nowDate = new Date();
+          const correctDateSuppress = getCorrectSuppressDate(suppressDate);
+          const isSuppressionDate = nowDate <= correctDateSuppress;
+          if (isSuppressionDate) {
+              setSuppressionProp(regionKey, violationObjectIdKey, violationRuleKey, file_date);
+          } else {
+              setSuppressionExpired(regionKey, violationObjectIdKey, violationRuleKey, file_date);
+          }
+      }
+  }
+  
+  
+  function getCorrectSuppressDate(suppressDate) {
+      const hasSuppressionDate = suppressDate !== '';
+      if (hasSuppressionDate) {
+          file_date = suppressDate;
+      } else {
+          suppressDate = new Date();
+      }
+      let correctDateSuppress = new Date(suppressDate);
+      if (isNaN(correctDateSuppress.getTime())) {
+          correctDateSuppress = new Date(0);
+      }
+      return correctDateSuppress;
+  }
+  
+  
+  function setSuppressionProp(regionKey, objectIdKey, violationRuleKey, file_date) {
+      const wayToViolationObject = result[regionKey][objectIdKey].violations[violationRuleKey];
+      wayToViolationObject["suppressed"] = true;
+      if (file_date != null) {
+          wayToViolationObject["suppression_until"] = file_date;
+          wayToViolationObject["suppression_expired"] = false;
+      }
+  }
+  
+  function setSuppressionExpired(regionKey, objectIdKey, violationRuleKey, file_date) {
+      if (file_date !== null) {
+          result[regionKey][objectIdKey].violations[violationRuleKey]["suppression_until"] = file_date;
+          result[regionKey][objectIdKey].violations[violationRuleKey]["suppression_expired"] = true;
+      } else {
+          result[regionKey][objectIdKey].violations[violationRuleKey]["suppression_expired"] = false;
+      }
+      result[regionKey][objectIdKey].violations[violationRuleKey]["suppressed"] = false;
+  }
+  
+  const violations = json_input['violations'];
+  const result = {};
+  createViolationWithSuppression(result, json_input);
   callback(result);
   EOH
+end
+
+coreo_uni_util_variables "s3-for-suppression-update-advisor-output" do
+  action :set
+  variables([
+                {'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-suppression-s3.return'}
+            ])
 end
 
 coreo_uni_util_jsrunner "jsrunner-process-table-s3" do
   action :run
   provide_composite_access true
-  json_input '{"violations":COMPOSITE::coreo_aws_advisor_s3.advise-s3.report}'
+  json_input '{"violations":COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report}'
   packages([
                {
                    :name => "js-yaml",
@@ -344,21 +369,20 @@ coreo_uni_util_jsrunner "jsrunner-process-table-s3" do
   EOH
 end
 
-coreo_uni_util_notify "advise-s3-json" do
-  action :nothing
-  type 'email'
-  allow_empty ${AUDIT_AWS_S3_ALLOW_EMPTY}
-  send_on '${AUDIT_AWS_S3_SEND_ON}'
-  payload '{"composite name":"PLAN::stack_name",
-  "plan name":"PLAN::name",
-  "number_of_checks":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_checks",
-  "number_of_violations":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_violations",
-  "number_violations_ignored":"COMPOSITE::coreo_aws_advisor_s3.advise-s3.number_ignored_violations",
-  "violations": COMPOSITE::coreo_aws_advisor_s3.advise-s3.report }'
-  payload_type "json"
-  endpoint ({
-      :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT}', :subject => 'CloudCoreo s3 advisor alerts on PLAN::stack_name :: PLAN::name'
-  })
+coreo_uni_util_jsrunner "jsrunner-process-alert-list-s3" do
+  action :run
+  provide_composite_access true
+  json_input '{"violations":COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report}'
+  packages([
+               {
+                   :name => "js-yaml",
+                   :version => "3.7.0"
+               }       ])
+  function <<-EOH
+    let alertListToJSON = "${AUDIT_AWS_S3_ALERT_LIST}";
+    let alertListArray = alertListToJSON.replace(/'/g, '"');
+    callback(alertListArray);
+  EOH
 end
 
 coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
@@ -367,10 +391,11 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.6.0"
+                   :version => "1.7.8"
                }       ])
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
+                "alert list": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-alert-list-s3.return,
                 "table": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-table-s3.return,
                 "violations": COMPOSITE::coreo_uni_util_jsrunner.jsrunner-process-suppression-s3.return}'
   function <<-EOH
@@ -380,30 +405,18 @@ const NO_OWNER_EMAIL = "${AUDIT_AWS_S3_ALERT_RECIPIENT}";
 const OWNER_TAG = "${AUDIT_AWS_S3_OWNER_TAG}";
 const ALLOW_EMPTY = "${AUDIT_AWS_S3_ALLOW_EMPTY}";
 const SEND_ON = "${AUDIT_AWS_S3_SEND_ON}";
-const AUDIT_NAME = 's3';
-const TABLES = json_input['table'];
 const SHOWN_NOT_SORTED_VIOLATIONS_COUNTER = false;
 
-const WHAT_NEED_TO_SHOWN_ON_TABLE = {
-    OBJECT_ID: { headerName: 'AWS Object ID', isShown: true},
-    REGION: { headerName: 'Region', isShown: true },
-    AWS_CONSOLE: { headerName: 'AWS Console', isShown: true },
-    TAGS: { headerName: 'Tags', isShown: true },
-    AMI: { headerName: 'AMI', isShown: false },
-    KILL_SCRIPTS: { headerName: 'Kill Cmd', isShown: false }
-};
-
-const VARIABLES = { NO_OWNER_EMAIL, OWNER_TAG, AUDIT_NAME,
-    WHAT_NEED_TO_SHOWN_ON_TABLE, ALLOW_EMPTY, SEND_ON,
-    undefined, undefined, SHOWN_NOT_SORTED_VIOLATIONS_COUNTER};
+const VARIABLES = { NO_OWNER_EMAIL, OWNER_TAG,
+   ALLOW_EMPTY, SEND_ON, 
+  SHOWN_NOT_SORTED_VIOLATIONS_COUNTER};
 
 const CloudCoreoJSRunner = require('cloudcoreo-jsrunner-commons');
-const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, VARIABLES, TABLES);
+const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, VARIABLES);
 const notifiers = AuditS3.getNotifiers();
 callback(notifiers);
   EOH
 end
-
 
 coreo_uni_util_notify "advise-s3-to-tag-values" do
   action :${AUDIT_AWS_S3_HTML_REPORT}
@@ -435,7 +448,6 @@ callback(rollup_string);
   EOH
 end
 
-
 coreo_uni_util_notify "advise-s3-rollup" do
   action :${AUDIT_AWS_S3_ROLLUP_REPORT}
   type 'email'
@@ -448,9 +460,6 @@ COMPOSITE::coreo_uni_util_jsrunner.tags-rollup-s3.return
   '
   payload_type 'text'
   endpoint ({
-      :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT}', :subject => 'CloudCoreo s3 advisor alerts on PLAN::stack_name :: PLAN::name'
+      :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT}', :subject => 'CloudCoreo s3 rule results on PLAN::stack_name :: PLAN::name'
   })
 end
-=begin
-  AWS S3 END
-=end
