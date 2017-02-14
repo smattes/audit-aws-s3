@@ -290,7 +290,6 @@ function setTableAndSuppression() {
   json_input['table'] = table || {};
 }
 
-
 setTableAndSuppression();
 
 const JSON_INPUT = json_input;
