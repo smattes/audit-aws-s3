@@ -19,14 +19,6 @@ This repo is designed to work with CloudCoreo. It will monitor S3 against best p
 
 ## Required variables with default
 
-### `AUDIT_AWS_S3_HTML_REPORT`:
-  * description: Would you like to send a full S3 report? This is an email that details any violations found and includes a list of the violating cloud objects. Options - notify / nothing. Default is nothing.
-  * default: nothing
-
-### `AUDIT_AWS_S3_ROLLUP_REPORT`:
-  * description: Would you like to send a rollup S3 report? This is a short email that summarizes the number of checks performed and the number of violations found. Options - notify / nothing. Default is nothing.
-  * default: nothing
-
 ### `AUDIT_AWS_S3_ALLOW_EMPTY`:
   * description: Would you like to receive empty reports? Options - true / false. Default is false.
   * default: false
@@ -36,14 +28,14 @@ This repo is designed to work with CloudCoreo. It will monitor S3 against best p
   * default: change
 
 ### `AUDIT_AWS_S3_REGIONS`:
-  * description: List of AWS regions to check. Default is us-east-1,us-east-2,us-west-1,us-west-2,eu-west-1.
-  * default: us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1
+  * description: List of AWS regions to check. Default is all regions. Choices are us-east-1,us-east-2,us-west-1,us-west-2,ca-central-1,ap-south-1,ap-northeast-2,ap-southeast-1,ap-southeast-2,ap-northeast-1,eu-central-1,eu-west-1,eu-west-1,sa-east-1
+  * default: us-east-1, us-east-2, us-west-1, us-west-2, ca-central-1, ap-south-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, ap-northeast-1, eu-central-1, eu-west-1, eu-west-2, sa-east-1
 
 
 ## Optional variables with default
 
 ### `AUDIT_AWS_S3_ALERT_LIST`:
-  * description: Which alerts would you like to check for? Default is all S3 alerts.
+  * description: Which alerts would you like to check for? Default is all S3 alerts. Choices are s3-allusers-write,s3-allusers-write-acp,s3-allusers-read,s3-authenticatedusers-write,s3-authenticatedusers-write-acp,s3-authenticatedusers-read,s3-logging-disabled,s3-world-open-policy-delete,s3-world-open-policy-get,s3-world-open-policy-list,s3-world-open-policy-put,s3-world-open-policy-all,s3-only-ip-based-policy
   * default: s3-allusers-write, s3-allusers-write-acp, s3-allusers-read, s3-authenticatedusers-write, s3-authenticatedusers-write-acp, s3-authenticatedusers-read, s3-logging-disabled, s3-world-open-policy-delete, s3-world-open-policy-get, s3-world-open-policy-list, s3-world-open-policy-put, s3-world-open-policy-all, s3-only-ip-based-policy
 
 ### `AUDIT_AWS_S3_OWNER_TAG`:
