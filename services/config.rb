@@ -250,7 +250,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.8.4"
+                   :version => "1.8.9"
                },
                {
                    :name => "js-yaml",
@@ -258,6 +258,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
                }       ])
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
+                "cloud account name": "PLAN::cloud_account_name",
                 "violations": COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report}'
   function <<-EOH
  
@@ -305,9 +306,9 @@ const VARIABLES = { NO_OWNER_EMAIL, OWNER_TAG,
 
 const CloudCoreoJSRunner = require('cloudcoreo-jsrunner-commons');
 const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, VARIABLES);
-const notifiers = AuditS3.getNotifiers();
+const notifiers = AuditS3.getLetters();
 
-const JSONReportAfterGeneratingSuppression = AuditS3.getJSONForAuditPanel();
+const JSONReportAfterGeneratingSuppression = AuditS3.getSortedJSONForAuditPanel();
 coreoExport('JSONReport', JSON.stringify(JSONReportAfterGeneratingSuppression));
 
 callback(notifiers);
