@@ -310,7 +310,6 @@ const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, SETTINGS);
 const notifiers = AuditS3.getLetters();
 
 const JSONReportAfterGeneratingSuppression = AuditS3.getSortedJSONForAuditPanel();
-const JSONReportAfterGeneratingSuppression = JSONReportAfterGeneratingSuppression['violations'];
 coreoExport('JSONReport', JSON.stringify(JSONReportAfterGeneratingSuppression));
 coreoExport('report', JSON.stringify(JSONReportAfterGeneratingSuppression['violations'));
 
