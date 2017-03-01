@@ -310,7 +310,9 @@ const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, SETTINGS);
 const notifiers = AuditS3.getLetters();
 
 const JSONReportAfterGeneratingSuppression = AuditS3.getSortedJSONForAuditPanel();
+const JSONReportAfterGeneratingSuppression = JSONReportAfterGeneratingSuppression['violations'];
 coreoExport('JSONReport', JSON.stringify(JSONReportAfterGeneratingSuppression));
+coreoExport('report', JSON.stringify(JSONReportAfterGeneratingSuppression['violations'));
 
 callback(notifiers);
   EOH
@@ -322,7 +324,7 @@ coreo_uni_util_variables "s3-update-planwide-3" do
   action :set
   variables([
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.JSONReport'},
-                {'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.JSONReport.violations'},
+                {'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.report'},
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.table' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.table'}
             ])
 end
