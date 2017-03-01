@@ -371,6 +371,7 @@ coreo_uni_util_notify "advise-s3-rollup" do
   payload '
 composite name: PLAN::stack_name
 plan name: PLAN::name
+cloud account name: PLAN::cloud_account_name
 COMPOSITE::coreo_uni_util_jsrunner.tags-rollup-s3.return
   '
   payload_type 'text'
