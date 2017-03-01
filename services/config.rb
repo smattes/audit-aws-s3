@@ -301,12 +301,12 @@ const ALLOW_EMPTY = "${AUDIT_AWS_S3_ALLOW_EMPTY}";
 const SEND_ON = "${AUDIT_AWS_S3_SEND_ON}";
 const SHOWN_NOT_SORTED_VIOLATIONS_COUNTER = false;
 
-const VARIABLES = { NO_OWNER_EMAIL, OWNER_TAG,
+const SETTINGS = { NO_OWNER_EMAIL, OWNER_TAG,
    ALLOW_EMPTY, SEND_ON, 
   SHOWN_NOT_SORTED_VIOLATIONS_COUNTER};
 
 const CloudCoreoJSRunner = require('cloudcoreo-jsrunner-commons');
-const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, VARIABLES);
+const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, SETTINGS);
 const notifiers = AuditS3.getLetters();
 
 const JSONReportAfterGeneratingSuppression = AuditS3.getSortedJSONForAuditPanel();
