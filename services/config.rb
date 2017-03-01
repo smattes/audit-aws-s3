@@ -311,7 +311,7 @@ const notifiers = AuditS3.getLetters();
 
 const JSONReportAfterGeneratingSuppression = AuditS3.getSortedJSONForAuditPanel();
 coreoExport('JSONReport', JSON.stringify(JSONReportAfterGeneratingSuppression));
-coreoExport('report', JSON.stringify(JSONReportAfterGeneratingSuppression['violations'));
+coreoExport('report', JSON.stringify(JSONReportAfterGeneratingSuppression['violations']));
 
 callback(notifiers);
   EOH
