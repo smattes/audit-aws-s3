@@ -238,6 +238,7 @@ coreo_uni_util_variables "s3-update-planwide-1" do
   action :set
   variables([
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report'},
+                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.report' => 'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report'},
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.number_violations' => 'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.number_violations'},
 
             ])
@@ -250,7 +251,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.8.4"
+                   :version => "1.9.0-beta.3"
                },
                {
                    :name => "js-yaml",
@@ -258,6 +259,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
                }       ])
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
+                "cloud account name": "PLAN::cloud_account_name",
                 "violations": COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report}'
   function <<-EOH
  
@@ -299,16 +301,17 @@ const ALLOW_EMPTY = "${AUDIT_AWS_S3_ALLOW_EMPTY}";
 const SEND_ON = "${AUDIT_AWS_S3_SEND_ON}";
 const SHOWN_NOT_SORTED_VIOLATIONS_COUNTER = false;
 
-const VARIABLES = { NO_OWNER_EMAIL, OWNER_TAG,
+const SETTINGS = { NO_OWNER_EMAIL, OWNER_TAG,
    ALLOW_EMPTY, SEND_ON, 
   SHOWN_NOT_SORTED_VIOLATIONS_COUNTER};
 
 const CloudCoreoJSRunner = require('cloudcoreo-jsrunner-commons');
-const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, VARIABLES);
-const notifiers = AuditS3.getNotifiers();
+const AuditS3 = new CloudCoreoJSRunner(JSON_INPUT, SETTINGS);
+const notifiers = AuditS3.getLetters();
 
-const JSONReportAfterGeneratingSuppression = AuditS3.getJSONForAuditPanel();
+const JSONReportAfterGeneratingSuppression = AuditS3.getSortedJSONForAuditPanel();
 coreoExport('JSONReport', JSON.stringify(JSONReportAfterGeneratingSuppression));
+coreoExport('report', JSON.stringify(JSONReportAfterGeneratingSuppression['violations']));
 
 callback(notifiers);
   EOH
@@ -320,6 +323,7 @@ coreo_uni_util_variables "s3-update-planwide-3" do
   action :set
   variables([
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.JSONReport'},
+                {'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.report'},
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.table' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.table'}
             ])
 end
@@ -371,6 +375,7 @@ coreo_uni_util_notify "advise-s3-rollup" do
   payload '
 composite name: PLAN::stack_name
 plan name: PLAN::name
+cloud account name: PLAN::cloud_account_name
 COMPOSITE::coreo_uni_util_jsrunner.tags-rollup-s3.return
   '
   payload_type 'text'
