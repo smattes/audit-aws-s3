@@ -10,8 +10,8 @@ coreo_aws_rule "s3-allusers-write" do
   level "Critical"
   objectives    ["bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AllUsers/i, "write"]
+  operators     ["=~", "=~"]
+  raise_when    [/AllUsers/i, /\bwrite\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -26,8 +26,8 @@ coreo_aws_rule "s3-allusers-write-acp" do
   level "Emergency"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AllUsers/i, "write_acp"]
+  operators     ["=~", "=~"]
+  raise_when    [/AllUsers/i, /\bwrite_acp\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -42,8 +42,8 @@ coreo_aws_rule "s3-allusers-read" do
   level "Critical"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AllUsers/i, "read"]
+  operators     ["=~", "=~"]
+  raise_when    [/AllUsers/i, /\bread\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -58,8 +58,8 @@ coreo_aws_rule "s3-authenticatedusers-write" do
   level "Critical"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AuthenticatedUsers/i, "write"]
+  operators     ["=~", "=~"]
+  raise_when    [/AuthenticatedUsers/i, /\bwrite\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -74,8 +74,8 @@ coreo_aws_rule "s3-authenticatedusers-write-acp" do
   level "Emergency"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AuthenticatedUsers/i, "write_acp"]
+  operators     ["=~", "=~"]
+  raise_when    [/AuthenticatedUsers/i, /\bwrite_acp\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -90,8 +90,8 @@ coreo_aws_rule "s3-authenticatedusers-read" do
   level "Critical"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AuthenticatedUsers/i, "read"]
+  operators     ["=~", "=~"]
+  raise_when    [/AuthenticatedUsers/i, /\bread\b/i]
   id_map "modifiers.bucket"
 end
 
