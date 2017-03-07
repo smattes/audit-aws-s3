@@ -225,7 +225,8 @@ coreo_uni_util_variables "s3-planwide" do
             ])
 end
 
-coreo_aws_rule_runner_s3 "advise-s3" do
+coreo_aws_rule_runner "advise-s3" do
+  service :s3
   action :run
   rules ${AUDIT_AWS_S3_ALERT_LIST}
 #  regions ${AUDIT_AWS_S3_REGIONS}  
@@ -237,9 +238,9 @@ end
 coreo_uni_util_variables "s3-update-planwide-1" do
   action :set
   variables([
-                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report'},
-                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.report' => 'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report'},
-                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.number_violations' => 'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.number_violations'},
+                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_aws_rule_runner.advise-s3.report'},
+                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.report' => 'COMPOSITE::coreo_aws_rule_runner.advise-s3.report'},
+                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.number_violations' => 'COMPOSITE::coreo_aws_rule_runner.advise-s3.number_violations'},
 
             ])
 end
@@ -260,7 +261,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
                 "cloud account name": "PLAN::cloud_account_name",
-                "violations": COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report}'
+                "violations": COMPOSITE::coreo_aws_rule_runner.advise-s3.report}'
   function <<-EOH
  
 
@@ -323,7 +324,7 @@ coreo_uni_util_variables "s3-update-planwide-3" do
   action :set
   variables([
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.JSONReport'},
-                {'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.report'},
+                {'COMPOSITE::coreo_aws_rule_runner.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.report'},
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.table' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.table'}
             ])
 end
