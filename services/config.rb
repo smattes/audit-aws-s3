@@ -12,7 +12,7 @@ coreo_aws_rule "s3-allusers-write" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   raise_when    [/AllUsers/i, "write"]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-allusers-write-acp" do
@@ -28,7 +28,7 @@ coreo_aws_rule "s3-allusers-write-acp" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   raise_when    [/AllUsers/i, "write_acp"]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-allusers-read" do
@@ -44,7 +44,7 @@ coreo_aws_rule "s3-allusers-read" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   raise_when    [/AllUsers/i, "read"]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-authenticatedusers-write" do
@@ -60,7 +60,7 @@ coreo_aws_rule "s3-authenticatedusers-write" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   raise_when    [/AuthenticatedUsers/i, "write"]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-authenticatedusers-write-acp" do
@@ -76,7 +76,7 @@ coreo_aws_rule "s3-authenticatedusers-write-acp" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   raise_when    [/AuthenticatedUsers/i, "write_acp"]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-authenticatedusers-read" do
@@ -92,7 +92,7 @@ coreo_aws_rule "s3-authenticatedusers-read" do
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=="]
   raise_when    [/AuthenticatedUsers/i, "read"]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-logging-disabled" do
@@ -108,7 +108,7 @@ coreo_aws_rule "s3-logging-disabled" do
   audit_objects [""]
   operators     ["=="]
   raise_when    [nil]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-world-open-policy-delete" do
@@ -125,7 +125,7 @@ coreo_aws_rule "s3-world-open-policy-delete" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   raise_when    [/s3:Delete*/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-world-open-policy-get" do
@@ -142,7 +142,7 @@ coreo_aws_rule "s3-world-open-policy-get" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   raise_when    [/s3:Get*/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-world-open-policy-list" do
@@ -159,7 +159,7 @@ coreo_aws_rule "s3-world-open-policy-list" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   raise_when    [/s3:List*/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-world-open-policy-put" do
@@ -176,7 +176,7 @@ coreo_aws_rule "s3-world-open-policy-put" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   raise_when    [/s3:Put*/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-world-open-policy-all" do
@@ -193,7 +193,7 @@ coreo_aws_rule "s3-world-open-policy-all" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   raise_when    [/[^\[\]\{\}]/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-only-ip-based-policy" do
@@ -210,7 +210,7 @@ coreo_aws_rule "s3-only-ip-based-policy" do
   formulas      ["jmespath.Statement[*].[Effect, Condition]"]
   operators     ["=~"]
   raise_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 
@@ -232,7 +232,7 @@ coreo_aws_rule_runner "advise-s3" do
 #  regions ${AUDIT_AWS_S3_REGIONS}  
   global_objective "buckets"
   bucket_name /.*/
-  global_modifier({:bucket_name => "buckets.name"})
+  global_modifier({:bucket => "buckets.name"})
 end
 
 coreo_uni_util_variables "s3-update-planwide-1" do
