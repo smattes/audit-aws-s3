@@ -231,7 +231,6 @@ coreo_aws_rule_runner "advise-s3" do
   rules ${AUDIT_AWS_S3_ALERT_LIST}
 #  regions ${AUDIT_AWS_S3_REGIONS}  
   global_objective "buckets"
-  bucket_name /.*/
   global_modifier({:bucket => "buckets.name"})
 end
 
