@@ -10,9 +10,9 @@ coreo_aws_rule "s3-allusers-write" do
   level "Critical"
   objectives    ["bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AllUsers/i, "write"]
-  id_map "modifiers.bucket_name"
+  operators     ["=~", "=~"]
+  raise_when    [/AllUsers/i, /\bwrite\b/i]
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-allusers-write-acp" do
@@ -26,9 +26,9 @@ coreo_aws_rule "s3-allusers-write-acp" do
   level "Emergency"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AllUsers/i, "write_acp"]
-  id_map "modifiers.bucket_name"
+  operators     ["=~", "=~"]
+  raise_when    [/AllUsers/i, /\bwrite_acp\b/i]
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-allusers-read" do
@@ -42,9 +42,9 @@ coreo_aws_rule "s3-allusers-read" do
   level "Critical"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AllUsers/i, "read"]
-  id_map "modifiers.bucket_name"
+  operators     ["=~", "=~"]
+  raise_when    [/AllUsers/i, /\bread\b/i]
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-authenticatedusers-write" do
@@ -58,9 +58,9 @@ coreo_aws_rule "s3-authenticatedusers-write" do
   level "Critical"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AuthenticatedUsers/i, "write"]
-  id_map "modifiers.bucket_name"
+  operators     ["=~", "=~"]
+  raise_when    [/AuthenticatedUsers/i, /\bwrite\b/i]
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-authenticatedusers-write-acp" do
@@ -74,9 +74,9 @@ coreo_aws_rule "s3-authenticatedusers-write-acp" do
   level "Emergency"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AuthenticatedUsers/i, "write_acp"]
-  id_map "modifiers.bucket_name"
+  operators     ["=~", "=~"]
+  raise_when    [/AuthenticatedUsers/i, /\bwrite_acp\b/i]
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-authenticatedusers-read" do
@@ -90,9 +90,9 @@ coreo_aws_rule "s3-authenticatedusers-read" do
   level "Critical"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=="]
-  raise_when    [/AuthenticatedUsers/i, "read"]
-  id_map "modifiers.bucket_name"
+  operators     ["=~", "=~"]
+  raise_when    [/AuthenticatedUsers/i, /\bread\b/i]
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-logging-disabled" do
@@ -108,7 +108,7 @@ coreo_aws_rule "s3-logging-disabled" do
   audit_objects [""]
   operators     ["=="]
   raise_when    [nil]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-world-open-policy-delete" do
@@ -125,7 +125,7 @@ coreo_aws_rule "s3-world-open-policy-delete" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   raise_when    [/s3:Delete*/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-world-open-policy-get" do
@@ -142,7 +142,7 @@ coreo_aws_rule "s3-world-open-policy-get" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   raise_when    [/s3:Get*/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-world-open-policy-list" do
@@ -159,7 +159,7 @@ coreo_aws_rule "s3-world-open-policy-list" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   raise_when    [/s3:List*/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-world-open-policy-put" do
@@ -176,7 +176,7 @@ coreo_aws_rule "s3-world-open-policy-put" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   raise_when    [/s3:Put*/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-world-open-policy-all" do
@@ -193,7 +193,7 @@ coreo_aws_rule "s3-world-open-policy-all" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
   operators     ["=~"]
   raise_when    [/[^\[\]\{\}]/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-only-ip-based-policy" do
@@ -210,7 +210,7 @@ coreo_aws_rule "s3-only-ip-based-policy" do
   formulas      ["jmespath.Statement[*].[Effect, Condition]"]
   operators     ["=~"]
   raise_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
-  id_map "modifiers.bucket_name"
+  id_map "modifiers.bucket"
 end
 
 
@@ -225,21 +225,21 @@ coreo_uni_util_variables "s3-planwide" do
             ])
 end
 
-coreo_aws_rule_runner_s3 "advise-s3" do
+coreo_aws_rule_runner "advise-s3" do
+  service :s3
   action :run
   rules ${AUDIT_AWS_S3_ALERT_LIST}
 #  regions ${AUDIT_AWS_S3_REGIONS}  
   global_objective "buckets"
-  bucket_name /.*/
-  global_modifier({:bucket_name => "buckets.name"})
+  global_modifier({:bucket => "buckets.name"})
 end
 
 coreo_uni_util_variables "s3-update-planwide-1" do
   action :set
   variables([
-                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report'},
-                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.report' => 'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report'},
-                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.number_violations' => 'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.number_violations'},
+                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_aws_rule_runner.advise-s3.report'},
+                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.report' => 'COMPOSITE::coreo_aws_rule_runner.advise-s3.report'},
+                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.number_violations' => 'COMPOSITE::coreo_aws_rule_runner.advise-s3.number_violations'},
 
             ])
 end
@@ -251,7 +251,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.9.0-beta.3"
+                   :version => "1.9.2"
                },
                {
                    :name => "js-yaml",
@@ -260,7 +260,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   json_input '{ "composite name":"PLAN::stack_name",
                 "plan name":"PLAN::name",
                 "cloud account name": "PLAN::cloud_account_name",
-                "violations": COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report}'
+                "violations": COMPOSITE::coreo_aws_rule_runner.advise-s3.report}'
   function <<-EOH
  
 
@@ -323,7 +323,7 @@ coreo_uni_util_variables "s3-update-planwide-3" do
   action :set
   variables([
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.JSONReport'},
-                {'COMPOSITE::coreo_aws_rule_runner_s3.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.report'},
+                {'COMPOSITE::coreo_aws_rule_runner.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.report'},
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.table' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.table'}
             ])
 end
