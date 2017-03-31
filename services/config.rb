@@ -221,7 +221,7 @@ coreo_uni_util_variables "s3-planwide" do
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.composite_name' => 'PLAN::stack_name'},
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.plan_name' => 'PLAN::name'},
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'unset'},
-                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.number_violations' => 'unset'}
+                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.number_violations' => '0'}
             ])
 end
 
