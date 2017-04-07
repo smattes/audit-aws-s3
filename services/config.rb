@@ -221,7 +221,7 @@ coreo_uni_util_variables "s3-planwide" do
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.composite_name' => 'PLAN::stack_name'},
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.plan_name' => 'PLAN::name'},
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'unset'},
-                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.number_violations' => 'unset'}
+                {'GLOBAL::number_violations' => '0'}
             ])
 end
 
@@ -239,7 +239,7 @@ coreo_uni_util_variables "s3-update-planwide-1" do
   variables([
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_aws_rule_runner.advise-s3.report'},
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.report' => 'COMPOSITE::coreo_aws_rule_runner.advise-s3.report'},
-                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.number_violations' => 'COMPOSITE::coreo_aws_rule_runner.advise-s3.number_violations'},
+                {'GLOBAL::number_violations' => 'COMPOSITE::coreo_aws_rule_runner.advise-s3.number_violations'},
 
             ])
 end
@@ -251,7 +251,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.9.6-beta1"
+                   :version => "1.10.7-9"
                },
                {
                    :name => "js-yaml",
@@ -324,7 +324,7 @@ coreo_uni_util_variables "s3-update-planwide-3" do
   variables([
                 {'COMPOSITE::coreo_uni_util_variables.s3-planwide.results' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.JSONReport'},
                 {'COMPOSITE::coreo_aws_rule_runner.advise-s3.report' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.report'},
-                {'COMPOSITE::coreo_uni_util_variables.s3-planwide.table' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.table'}
+                {'GLOBAL::table' => 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.table'}
             ])
 end
 
