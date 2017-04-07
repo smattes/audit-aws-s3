@@ -7,7 +7,7 @@ coreo_aws_rule "s3-allusers-write" do
   description "Bucket has permissions (ACL) which let all users write to the bucket."
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to write."
-  level "Critical"
+  level "High"
   objectives    ["bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -23,7 +23,7 @@ coreo_aws_rule "s3-allusers-write-acp" do
   description "Bucket has permissions (ACP / ACL) which let all users modify the permissions."
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to edit permissions."
-  level "Emergency"
+  level "High"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -39,7 +39,7 @@ coreo_aws_rule "s3-allusers-read" do
   description "Bucket has permissions (ACL) which let anyone list the bucket contents."
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to list the bucket."
-  level "Critical"
+  level "High"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -55,7 +55,7 @@ coreo_aws_rule "s3-authenticatedusers-write" do
   description "Bucket has permissions (ACL) which let any AWS users write to the bucket."
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to write."
-  level "Critical"
+  level "High"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -71,7 +71,7 @@ coreo_aws_rule "s3-authenticatedusers-write-acp" do
   description "Bucket has permissions ( ACP / ACL) which let any AWS user modify the permissions."
   category "Dataloss"
   suggested_action "Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions."
-  level "Emergency"
+  level "High"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -87,7 +87,7 @@ coreo_aws_rule "s3-authenticatedusers-read" do
   description "Bucket has permissions (ACL) which let any AWS user list the bucket contents."
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to list the bucket."
-  level "Critical"
+  level "High"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -103,7 +103,7 @@ coreo_aws_rule "s3-logging-disabled" do
   description "S3 bucket logging has not been enabled for the affected resource."
   category "Audit"
   suggested_action "Enable logging on your S3 buckets."
-  level "Warning"
+  level "Low"
   objectives    ["bucket_logging"]
   audit_objects [""]
   operators     ["=="]
@@ -119,7 +119,7 @@ coreo_aws_rule "s3-world-open-policy-delete" do
   description "Bucket policy allows the world to delete the affected bucket and/or its contents"
   category "Dataloss"
   suggested_action "Remove or modify the bucket policy that enables the world to delete the contents of this bucket or even the bucket itself."
-  level "Emergency"
+  level "High"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
@@ -136,7 +136,7 @@ coreo_aws_rule "s3-world-open-policy-get" do
   description "Bucket policy allows the world to get the contents of the affected bucket."
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables the world to get the contents of this bucket."
-  level "Critical"
+  level "High"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
@@ -153,7 +153,7 @@ coreo_aws_rule "s3-world-open-policy-list" do
   description "Bucket policy allows the world to list the contents of the affected bucket"
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables the world to list the contents of this bucket."
-  level "Critical"
+  level "High"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
@@ -170,7 +170,7 @@ coreo_aws_rule "s3-world-open-policy-put" do
   description "Bucket policy allows the world to put data into the affected bucket."
   category "Dataloss"
   suggested_action "Remove the bucket permission that enables the world to put (and overwrite) data in this bucket."
-  level "Critical"
+  level "High"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
@@ -187,7 +187,7 @@ coreo_aws_rule "s3-world-open-policy-all" do
   description "Bucket policy gives the world permission to do anything in the bucket"
   category "Dataloss"
   suggested_action "Modify the principle to remove the * notation which signifies any person or remove the * from allowed actions which signifies allowing any possible action on the bucket or its contents."
-  level "Emergency"
+  level "High"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
@@ -204,7 +204,7 @@ coreo_aws_rule "s3-only-ip-based-policy" do
   description "Bucket policy grants permissions to any user at an IP address or range to perform operations on objects in the specified bucket."
   category "Security"
   suggested_action "Consider using other methods to grant permission to perform operations on your S3 buckets."
-  level "Critical"
+  level "High"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[*].[Effect, Condition]"]
