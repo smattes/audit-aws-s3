@@ -55,7 +55,7 @@ This repo is designed to work with CloudCoreo. It will monitor S3 against best p
 1. S3
 
 ## Categories
-1. AWS Services Audi
+1. AWS Services Audit
 
 
 
