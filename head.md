@@ -1,3 +1,3 @@
-audit S3
+s3 audit
 ============================
-This stack will monitor S3 and alert on things CloudCoreo developers think are violations of best practices
+This composite monitors s3 and reports best practice violations, standards body policy violations, and inventory
