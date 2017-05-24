@@ -62,6 +62,7 @@ coreo_aws_rule "s3-authenticatedusers-access" do
   formulas      ["jmespath.Statement[?Effect == 'Allow' && !Condition].Principal"]
   operators     ["=~"]
   raise_when    [/"AWS":\s*"\*"/]
+  id_map "modifiers.bucket"
 end
 
 coreo_aws_rule "s3-authenticatedusers-write" do
