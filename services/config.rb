@@ -47,6 +47,23 @@ coreo_aws_rule "s3-allusers-read" do
   id_map "modifiers.bucket"
 end
 
+
+coreo_aws_rule "s3-authenticatedusers-access" do
+  action :define
+  service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-world-open-policy-list.html"
+  display_name "Any Authenticated User has access"
+  description "Bucket policy gives any authenticated user some sort of access to this s3 bucket"
+  category "Security"
+  suggested_action "Remove or modify the bucket policy that enables any authenticated user access."
+  level "High"
+  objectives    ["bucket_policy"]
+  audit_objects ["policy"]
+  formulas      ["jmespath.Statement[?Effect == 'Allow' && !Condition].Principal"]
+  operators     ["=~"]
+  raise_when    [/"AWS":\s*"\*"/]
+end
+
 coreo_aws_rule "s3-authenticatedusers-write" do
   action :define
   service :s3
