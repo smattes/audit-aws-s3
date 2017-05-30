@@ -8,6 +8,7 @@ coreo_aws_rule "s3-allusers-write" do
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to write."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    ["bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -24,6 +25,7 @@ coreo_aws_rule "s3-allusers-write-acp" do
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to edit permissions."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -40,6 +42,7 @@ coreo_aws_rule "s3-allusers-read" do
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to list the bucket."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -57,6 +60,7 @@ coreo_aws_rule "s3-authenticatedusers-access" do
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables any authenticated user access."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && !Condition].Principal"]
@@ -74,6 +78,7 @@ coreo_aws_rule "s3-authenticatedusers-write" do
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to write."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -90,6 +95,7 @@ coreo_aws_rule "s3-authenticatedusers-write-acp" do
   category "Dataloss"
   suggested_action "Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -106,6 +112,7 @@ coreo_aws_rule "s3-authenticatedusers-read" do
   category "Security"
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to list the bucket."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    [ "bucket_acl","bucket_acl"]
   audit_objects ["grants.grantee.uri", "grants.permission"]
   operators     ["=~", "=~"]
@@ -122,6 +129,7 @@ coreo_aws_rule "s3-logging-disabled" do
   category "Audit"
   suggested_action "Enable logging on your S3 buckets."
   level "Low"
+  meta_nist_171_id "3.1.2"
   objectives    ["bucket_logging"]
   audit_objects [""]
   operators     ["=="]
@@ -138,6 +146,7 @@ coreo_aws_rule "s3-world-open-policy-delete" do
   category "Dataloss"
   suggested_action "Remove or modify the bucket policy that enables the world to delete the contents of this bucket or even the bucket itself."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
@@ -155,6 +164,7 @@ coreo_aws_rule "s3-world-open-policy-get" do
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables the world to get the contents of this bucket."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
@@ -172,6 +182,7 @@ coreo_aws_rule "s3-world-open-policy-list" do
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables the world to list the contents of this bucket."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
@@ -189,6 +200,7 @@ coreo_aws_rule "s3-world-open-policy-put" do
   category "Dataloss"
   suggested_action "Remove the bucket permission that enables the world to put (and overwrite) data in this bucket."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
@@ -206,6 +218,7 @@ coreo_aws_rule "s3-world-open-policy-all" do
   category "Dataloss"
   suggested_action "Modify the principle to remove the * notation which signifies any person or remove the * from allowed actions which signifies allowing any possible action on the bucket or its contents."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
@@ -223,6 +236,7 @@ coreo_aws_rule "s3-only-ip-based-policy" do
   category "Security"
   suggested_action "Consider using other methods to grant permission to perform operations on your S3 buckets."
   level "High"
+  meta_nist_171_id "3.1.3"
   objectives    ["bucket_policy"]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[*].[Effect, Condition]"]
