@@ -10,6 +10,10 @@ s3-allusers-read:
   "AWS Cloud Object Name": "__OBJECT__"
   "AWS Region": "+__OBJECT__.violations.__RULE__.region+"
   "AWS Tags": "__TAGS__"
+s3-authenticatedusers-access:
+  "AWS Cloud Object Name": "__OBJECT__"
+  "AWS Region": "+__OBJECT__.violations.__RULE__.region+"
+  "AWS Tags": "__TAGS__"
 s3-authenticatedusers-write:
   "AWS Cloud Object Name": "__OBJECT__"
   "AWS Region": "+__OBJECT__.violations.__RULE__.region+"
