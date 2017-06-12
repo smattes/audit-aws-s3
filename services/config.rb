@@ -320,7 +320,6 @@ function setSuppression() {
 }
 
 function setTable() {
-
   userSchemes = yaml.safeLoad(fs.readFileSync('./table.yaml', 'utf8'));
   coreoExport('table', JSON.stringify(userSchemes));
 }
