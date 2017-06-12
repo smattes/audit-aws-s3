@@ -315,12 +315,7 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 
 function setSuppression() {
-  try {
-    userSuppression = yaml.safeLoad(fs.readFileSync('./suppression.yaml', 'utf8'));
-  } catch (e) {
-    console.log(`Error reading suppression.yaml file`);
-    userSuppression = [];
-  }
+  userSuppression = yaml.safeLoad(fs.readFileSync('./suppression.yaml', 'utf8'));
   coreoExport('suppression', JSON.stringify(userSuppression));
 }
 
