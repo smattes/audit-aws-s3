@@ -283,7 +283,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.9.7-beta22"
+                   :version => "1.9.7-beta29"
                },
                {
                    :name => "js-yaml",
@@ -315,22 +315,12 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 
 function setSuppression() {
-  try {
-    userSuppression = yaml.safeLoad(fs.readFileSync('./suppression.yaml', 'utf8'));
-  } catch (e) {
-    console.log(`Error reading suppression.yaml file`);
-    userSuppression = [];
-  }
+  userSuppression = yaml.safeLoad(fs.readFileSync('./suppression.yaml', 'utf8'));
   coreoExport('suppression', JSON.stringify(userSuppression));
 }
 
 function setTable() {
-  try {
-    userSchemes = yaml.safeLoad(fs.readFileSync('./table.yaml', 'utf8'));
-  } catch (e) {
-    console.log(`Error reading table.yaml file`);
-    userSchemes = {};
-  }
+  userSchemes = yaml.safeLoad(fs.readFileSync('./table.yaml', 'utf8'));
   coreoExport('table', JSON.stringify(userSchemes));
 }
 setSuppression();
