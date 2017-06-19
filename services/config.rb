@@ -264,6 +264,7 @@ coreo_aws_rule_runner "advise-s3" do
 #  regions ${AUDIT_AWS_S3_REGIONS}  
   global_objective "buckets"
   global_modifier({:bucket => "buckets.name"})
+  filter(${FILTERED_OBJECTS}) if ${FILTERED_OBJECTS}
 end
 
 coreo_uni_util_variables "s3-update-planwide-1" do
