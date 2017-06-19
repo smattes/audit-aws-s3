@@ -48,6 +48,9 @@ This composite monitors s3 against best practices and reports violations and inv
 ### `AUDIT_AWS_S3_ALERT_RECIPIENT`:
   * description: Enter the email address(es) that will receive notifiers. If more than one, separate each with a comma.
 
+### `FILTERED_OBJECTS`:
+  * description: JSON object of string or regex of aws objects to include or exclude and tag in audit
+
 ## Tags
 1. Audit
 1. Best Practices
