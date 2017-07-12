@@ -28,7 +28,7 @@ coreo_aws_rule "s3-allusers-write" do
   level "High"
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
-  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {}]
   audit_objects ["", "grants.grantee.uri", "grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AllUsers/i, /\bwrite\b/i]
@@ -46,7 +46,7 @@ coreo_aws_rule "s3-allusers-write-acp" do
   level "High"
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
-  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {}]
   audit_objects ["", "grants.grantee.uri", "grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AllUsers/i, /\bwrite_acp\b/i]
@@ -64,7 +64,7 @@ coreo_aws_rule "s3-allusers-read" do
   level "High"
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
-  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {}]
   audit_objects ["", "grants.grantee.uri", "grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AllUsers/i, /\bread\b/i]
@@ -102,7 +102,7 @@ coreo_aws_rule "s3-authenticatedusers-write" do
   level "High"
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
-  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {}]
   audit_objects ["", "grants.grantee.uri", "grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AuthenticatedUsers/i, /\bwrite\b/i]
@@ -120,7 +120,7 @@ coreo_aws_rule "s3-authenticatedusers-write-acp" do
   level "High"
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
-  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {}]
   audit_objects ["", "grants.grantee.uri", "grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AuthenticatedUsers/i, /\bwrite_acp\b/i]
@@ -138,7 +138,7 @@ coreo_aws_rule "s3-authenticatedusers-read" do
   level "High"
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
-  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {}]
   audit_objects ["", "grants.grantee.uri", "grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AuthenticatedUsers/i, /\bread\b/i]
