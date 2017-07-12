@@ -9,7 +9,8 @@ coreo_aws_rule "s3-inventory" do
   category "Inventory"
   suggested_action "None."
   level "Informational"
-  objectives ["buckets"]
+  objectives  ["buckets", "buckets"]
+  call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects ["object.buckets.name"]
   operators ["=~"]
   raise_when [//]
@@ -26,10 +27,11 @@ coreo_aws_rule "s3-allusers-write" do
   suggested_action "Remove the entry from the bucket permissions that allows everyone to write."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    ["bucket_acl","bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=~"]
-  raise_when    [/AllUsers/i, /\bwrite\b/i]
+  objectives     ["buckets", "bucket_acl", "bucket_acl"]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  operators     ["", "=~", "=~"]
+  raise_when    ["", /AllUsers/i, /\bwrite\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -43,10 +45,11 @@ coreo_aws_rule "s3-allusers-write-acp" do
   suggested_action "Remove the entry from the bucket permissions that allows everyone to edit permissions."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    [ "bucket_acl","bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=~"]
-  raise_when    [/AllUsers/i, /\bwrite_acp\b/i]
+  objectives     ["buckets", "bucket_acl", "bucket_acl"]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  operators     ["", "=~", "=~"]
+  raise_when    ["", /AllUsers/i, /\bwrite_acp\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -60,10 +63,11 @@ coreo_aws_rule "s3-allusers-read" do
   suggested_action "Remove the entry from the bucket permissions that allows everyone to list the bucket."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    [ "bucket_acl","bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=~"]
-  raise_when    [/AllUsers/i, /\bread\b/i]
+  objectives     ["buckets", "bucket_acl", "bucket_acl"]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  operators     ["", "=~", "=~"]
+  raise_when    ["", /AllUsers/i, /\bread\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -78,7 +82,8 @@ coreo_aws_rule "s3-authenticatedusers-access" do
   suggested_action "Remove or modify the bucket policy that enables any authenticated user access."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    ["bucket_policy"]
+  objectives     ["buckets", "bucket_policy"]
+  call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && !Condition].Principal"]
   operators     ["=~"]
@@ -96,10 +101,11 @@ coreo_aws_rule "s3-authenticatedusers-write" do
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to write."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    [ "bucket_acl","bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=~"]
-  raise_when    [/AuthenticatedUsers/i, /\bwrite\b/i]
+  objectives     ["buckets", "bucket_acl", "bucket_acl"]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  operators     ["", "=~", "=~"]
+  raise_when    ["", /AuthenticatedUsers/i, /\bwrite\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -113,10 +119,11 @@ coreo_aws_rule "s3-authenticatedusers-write-acp" do
   suggested_action "Remove the bucket permissions (ACP / ACL) that allows 'Any Authenticated AWS User' to edit permissions."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    [ "bucket_acl","bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=~"]
-  raise_when    [/AuthenticatedUsers/i, /\bwrite_acp\b/i]
+  objectives     ["buckets", "bucket_acl", "bucket_acl"]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  operators     ["", "=~", "=~"]
+  raise_when    ["", /AuthenticatedUsers/i, /\bwrite_acp\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -130,10 +137,11 @@ coreo_aws_rule "s3-authenticatedusers-read" do
   suggested_action "Remove the entry from the bucket permissions that allows 'Any Authenticated AWS User' to list the bucket."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    [ "bucket_acl","bucket_acl"]
-  audit_objects ["grants.grantee.uri", "grants.permission"]
-  operators     ["=~", "=~"]
-  raise_when    [/AuthenticatedUsers/i, /\bread\b/i]
+  objectives     ["buckets", "bucket_acl", "bucket_acl"]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
+  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  operators     ["", "=~", "=~"]
+  raise_when    ["", /AuthenticatedUsers/i, /\bread\b/i]
   id_map "modifiers.bucket"
 end
 
@@ -147,7 +155,8 @@ coreo_aws_rule "s3-logging-disabled" do
   suggested_action "Enable logging on your S3 buckets."
   level "Low"
   meta_nist_171_id "3.1.2"
-  objectives    ["bucket_logging"]
+  objectives     ["buckets", "bucket_logging"]
+  call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects [""]
   operators     ["=="]
   raise_when    [nil]
@@ -164,7 +173,8 @@ coreo_aws_rule "s3-world-open-policy-delete" do
   suggested_action "Remove or modify the bucket policy that enables the world to delete the contents of this bucket or even the bucket itself."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    ["bucket_policy"]
+  objectives     ["buckets", "bucket_policy"]
+  call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
@@ -182,7 +192,8 @@ coreo_aws_rule "s3-world-open-policy-get" do
   suggested_action "Remove or modify the bucket policy that enables the world to get the contents of this bucket."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    ["bucket_policy"]
+  objectives     ["buckets", "bucket_policy"]
+  call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
@@ -200,7 +211,8 @@ coreo_aws_rule "s3-world-open-policy-list" do
   suggested_action "Remove or modify the bucket policy that enables the world to list the contents of this bucket."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    ["bucket_policy"]
+  objectives     ["buckets", "bucket_policy"]
+  call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
@@ -218,7 +230,8 @@ coreo_aws_rule "s3-world-open-policy-put" do
   suggested_action "Remove the bucket permission that enables the world to put (and overwrite) data in this bucket."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    ["bucket_policy"]
+  objectives     ["buckets", "bucket_policy"]
+  call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["=~"]
@@ -236,7 +249,8 @@ coreo_aws_rule "s3-world-open-policy-all" do
   suggested_action "Modify the principle to remove the * notation which signifies any person or remove the * from allowed actions which signifies allowing any possible action on the bucket or its contents."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    ["bucket_policy"]
+  objectives     ["buckets", "bucket_policy"]
+  call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
   operators     ["=~"]
@@ -254,7 +268,8 @@ coreo_aws_rule "s3-only-ip-based-policy" do
   suggested_action "Consider using other methods to grant permission to perform operations on your S3 buckets."
   level "High"
   meta_nist_171_id "3.1.3"
-  objectives    ["bucket_policy"]
+  objectives     ["buckets", "bucket_policy"]
+  call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects ["policy"]
   formulas      ["jmespath.Statement[*].[Effect, Condition]"]
   operators     ["=~"]
@@ -278,9 +293,6 @@ coreo_aws_rule_runner "advise-s3" do
   service :s3
   action :run
   rules ${AUDIT_AWS_S3_ALERT_LIST}
-#  regions ${AUDIT_AWS_S3_REGIONS}  
-  global_objective "buckets"
-  global_modifier({:bucket => "buckets.name"})
   filter(${FILTERED_OBJECTS}) if ${FILTERED_OBJECTS}
 end
 
