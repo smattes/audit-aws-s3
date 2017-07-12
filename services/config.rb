@@ -122,7 +122,7 @@ coreo_aws_rule "s3-authenticatedusers-write-acp" do
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
   call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
   audit_objects ["", "grants.grantee.uri", "grants.permission"]
-  operators     ["", "", "=~", "=~"]
+  operators     ["", "=~", "=~"]
   raise_when    ["", /AuthenticatedUsers/i, /\bwrite_acp\b/i]
   id_map "modifiers.bucket"
 end
