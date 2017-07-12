@@ -11,9 +11,9 @@ coreo_aws_rule "s3-inventory" do
   level "Informational"
   objectives  ["buckets", "buckets"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["object.buckets.name"]
-  operators ["=~"]
-  raise_when [//]
+  audit_objects ["", "object.buckets.name"]
+  operators ["", "=~"]
+  raise_when ["", //]
   id_map "object.buckets.name"
 end
 
@@ -84,10 +84,10 @@ coreo_aws_rule "s3-authenticatedusers-access" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["policy"]
-  formulas      ["jmespath.Statement[?Effect == 'Allow' && !Condition].Principal"]
-  operators     ["=~"]
-  raise_when    [/"AWS":\s*"\*"/]
+  audit_objects ["", "policy"]
+  formulas      ["", "jmespath.Statement[?Effect == 'Allow' && !Condition].Principal"]
+  operators     ["", "=~"]
+  raise_when    ["", /"AWS":\s*"\*"/]
   id_map "modifiers.bucket"
 end
 
@@ -122,7 +122,7 @@ coreo_aws_rule "s3-authenticatedusers-write-acp" do
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
   call_modifiers [{}, {:bucket => "buckets.name"}, {:bucket => "buckets.name"}]
   audit_objects ["", "grants.grantee.uri", "grants.permission"]
-  operators     ["", "=~", "=~"]
+  operators     ["", "", "=~", "=~"]
   raise_when    ["", /AuthenticatedUsers/i, /\bwrite_acp\b/i]
   id_map "modifiers.bucket"
 end
@@ -157,9 +157,9 @@ coreo_aws_rule "s3-logging-disabled" do
   meta_nist_171_id "3.1.2"
   objectives     ["buckets", "bucket_logging"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects [""]
-  operators     ["=="]
-  raise_when    [nil]
+  audit_objects ["", ""]
+  operators     ["", "=="]
+  raise_when    ["", nil]
   id_map "modifiers.bucket"
 end
 
@@ -175,10 +175,10 @@ coreo_aws_rule "s3-world-open-policy-delete" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["policy"]
-  formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
-  operators     ["=~"]
-  raise_when    [/s3:Delete*/]
+  audit_objects ["", "policy"]
+  formulas      ["", "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
+  operators     ["", "=~"]
+  raise_when    ["", /s3:Delete*/]
   id_map "modifiers.bucket"
 end
 
@@ -194,10 +194,10 @@ coreo_aws_rule "s3-world-open-policy-get" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["policy"]
-  formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
-  operators     ["=~"]
-  raise_when    [/s3:Get*/]
+  audit_objects ["", "policy"]
+  formulas      ["", "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
+  operators     ["", "=~"]
+  raise_when    ["", /s3:Get*/]
   id_map "modifiers.bucket"
 end
 
@@ -213,10 +213,10 @@ coreo_aws_rule "s3-world-open-policy-list" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["policy"]
-  formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
-  operators     ["=~"]
-  raise_when    [/s3:List*/]
+  audit_objects ["", "policy"]
+  formulas      ["", "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
+  operators     ["", "=~"]
+  raise_when    ["", /s3:List*/]
   id_map "modifiers.bucket"
 end
 
@@ -232,10 +232,10 @@ coreo_aws_rule "s3-world-open-policy-put" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["policy"]
-  formulas      ["jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
-  operators     ["=~"]
-  raise_when    [/s3:Put*/]
+  audit_objects ["", "policy"]
+  formulas      ["", "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
+  operators     ["", "=~"]
+  raise_when    ["", /s3:Put*/]
   id_map "modifiers.bucket"
 end
 
@@ -251,10 +251,10 @@ coreo_aws_rule "s3-world-open-policy-all" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["policy"]
-  formulas      ["jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
-  operators     ["=~"]
-  raise_when    [/[^\[\]\{\}]/]
+  audit_objects ["", "policy"]
+  formulas      ["", "jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
+  operators     ["", "=~"]
+  raise_when    ["", /[^\[\]\{\}]/]
   id_map "modifiers.bucket"
 end
 
@@ -270,10 +270,10 @@ coreo_aws_rule "s3-only-ip-based-policy" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["policy"]
-  formulas      ["jmespath.Statement[*].[Effect, Condition]"]
-  operators     ["=~"]
-  raise_when    [/"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
+  audit_objects ["", "policy"]
+  formulas      ["", "jmespath.Statement[*].[Effect, Condition]"]
+  operators     ["", "=~"]
+  raise_when    ["", /"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
   id_map "modifiers.bucket"
 end
 
