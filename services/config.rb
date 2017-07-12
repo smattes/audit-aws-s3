@@ -10,10 +10,10 @@ coreo_aws_rule "s3-inventory" do
   suggested_action "None."
   level "Informational"
   objectives ["buckets"]
-  audit_objects ["object.name"]
+  audit_objects ["object.buckets.name"]
   operators ["=~"]
   raise_when [//]
-  id_map "object.name"
+  id_map "object.buckets.name"
 end
 
 coreo_aws_rule "s3-allusers-write" do
