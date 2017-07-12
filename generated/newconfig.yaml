@@ -3,6 +3,7 @@ variables:
         required: false
         type: array
         default:
+            - s3-inventory # not_violation 
             - s3-allusers-write # 
             - s3-allusers-write-acp # 
             - s3-allusers-read # 
@@ -17,4 +18,4 @@ variables:
             - s3-world-open-policy-put # 
             - s3-world-open-policy-all # 
             - s3-only-ip-based-policy # 
-        description: "Which rules would you like to run? Possible values are s3-allusers-write s3-allusers-write-acp s3-allusers-read s3-authenticatedusers-access s3-authenticatedusers-write s3-authenticatedusers-write-acp s3-authenticatedusers-read s3-logging-disabled s3-world-open-policy-delete s3-world-open-policy-get s3-world-open-policy-list s3-world-open-policy-put s3-world-open-policy-all s3-only-ip-based-policy"
+        description: "Which rules would you like to run? Possible values are s3-inventory s3-allusers-write s3-allusers-write-acp s3-allusers-read s3-authenticatedusers-access s3-authenticatedusers-write s3-authenticatedusers-write-acp s3-authenticatedusers-read s3-logging-disabled s3-world-open-policy-delete s3-world-open-policy-get s3-world-open-policy-list s3-world-open-policy-put s3-world-open-policy-all s3-only-ip-based-policy"
