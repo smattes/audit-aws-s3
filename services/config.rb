@@ -1,4 +1,3 @@
-
 coreo_aws_rule "s3-inventory" do
   action :define
   service :s3
@@ -9,11 +8,10 @@ coreo_aws_rule "s3-inventory" do
   category "Inventory"
   suggested_action "None."
   level "Informational"
-  objectives  ["buckets", "buckets"]
-  call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["", "object.buckets.name"]
-  operators ["", "=~"]
-  raise_when ["", //]
+  objectives  ["buckets"]
+  audit_objects ["object.buckets.name"]
+  operators ["=~"]
+  raise_when [//]
   id_map "object.buckets.name"
 end
 
