@@ -45,6 +45,9 @@ This composite monitors s3 against best practices and reports violations and inv
 
 ## Optional variables with no default
 
+### `HTML_REPORT_SUBJECT`:
+  * description: Enter a custom report subject name.
+
 ### `AUDIT_AWS_S3_ALERT_RECIPIENT`:
   * description: Enter the email address(es) that will receive notifiers. If more than one, separate each with a comma.
 
