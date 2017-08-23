@@ -27,7 +27,7 @@ coreo_aws_rule "s3-allusers-write" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
   call_modifiers [{}, {:bucket => "buckets.name"}, {}]
-  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  audit_objects ["", "object.grants.grantee.uri", "object.grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AllUsers/i, /\bwrite\b/i]
   id_map "modifiers.bucket"
@@ -45,7 +45,7 @@ coreo_aws_rule "s3-allusers-write-acp" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
   call_modifiers [{}, {:bucket => "buckets.name"}, {}]
-  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  audit_objects ["", "object.grants.grantee.uri", "object.grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AllUsers/i, /\bwrite_acp\b/i]
   id_map "modifiers.bucket"
@@ -63,7 +63,7 @@ coreo_aws_rule "s3-allusers-read" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
   call_modifiers [{}, {:bucket => "buckets.name"}, {}]
-  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  audit_objects ["", "object.grants.grantee.uri", "object.grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AllUsers/i, /\bread\b/i]
   id_map "modifiers.bucket"
@@ -82,7 +82,7 @@ coreo_aws_rule "s3-authenticatedusers-access" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["", "policy"]
+  audit_objects ["", "object.policy"]
   formulas      ["", "jmespath.Statement[?Effect == 'Allow' && !Condition].Principal"]
   operators     ["", "=~"]
   raise_when    ["", /"AWS":\s*"\*"/]
@@ -101,7 +101,7 @@ coreo_aws_rule "s3-authenticatedusers-write" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
   call_modifiers [{}, {:bucket => "buckets.name"}, {}]
-  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  audit_objects ["", "object.grants.grantee.uri", "object.grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AuthenticatedUsers/i, /\bwrite\b/i]
   id_map "modifiers.bucket"
@@ -119,7 +119,7 @@ coreo_aws_rule "s3-authenticatedusers-write-acp" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
   call_modifiers [{}, {:bucket => "buckets.name"}, {}]
-  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  audit_objects ["", "object.grants.grantee.uri", "object.grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AuthenticatedUsers/i, /\bwrite_acp\b/i]
   id_map "modifiers.bucket"
@@ -137,7 +137,7 @@ coreo_aws_rule "s3-authenticatedusers-read" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
   call_modifiers [{}, {:bucket => "buckets.name"}, {}]
-  audit_objects ["", "grants.grantee.uri", "grants.permission"]
+  audit_objects ["", "object.grants.grantee.uri", "object.grants.permission"]
   operators     ["", "=~", "=~"]
   raise_when    ["", /AuthenticatedUsers/i, /\bread\b/i]
   id_map "modifiers.bucket"
@@ -173,7 +173,7 @@ coreo_aws_rule "s3-world-open-policy-delete" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["", "policy"]
+  audit_objects ["", "object.policy"]
   formulas      ["", "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["", "=~"]
   raise_when    ["", /s3:Delete*/]
@@ -192,7 +192,7 @@ coreo_aws_rule "s3-world-open-policy-get" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["", "policy"]
+  audit_objects ["", "object.policy"]
   formulas      ["", "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["", "=~"]
   raise_when    ["", /s3:Get*/]
@@ -211,7 +211,7 @@ coreo_aws_rule "s3-world-open-policy-list" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["", "policy"]
+  audit_objects ["", "object.policy"]
   formulas      ["", "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["", "=~"]
   raise_when    ["", /s3:List*/]
@@ -230,7 +230,7 @@ coreo_aws_rule "s3-world-open-policy-put" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["", "policy"]
+  audit_objects ["", "object.policy"]
   formulas      ["", "jmespath.Statement[?Effect == 'Allow' && Principal == '*' && !Condition]"]
   operators     ["", "=~"]
   raise_when    ["", /s3:Put*/]
@@ -249,7 +249,7 @@ coreo_aws_rule "s3-world-open-policy-all" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["", "policy"]
+  audit_objects ["", "object.policy"]
   formulas      ["", "jmespath.Statement[?Effect == 'Allow' && Action == 's3:*' && Principal == '*' && !Condition]"]
   operators     ["", "=~"]
   raise_when    ["", /[^\[\]\{\}]/]
@@ -268,7 +268,7 @@ coreo_aws_rule "s3-only-ip-based-policy" do
   meta_nist_171_id "3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
-  audit_objects ["", "policy"]
+  audit_objects ["", "object.policy"]
   formulas      ["", "jmespath.Statement[*].[Effect, Condition]"]
   operators     ["", "=~"]
   raise_when    ["", /"(Allow|Deny)",[^{]*({"IpAddress")[^}]*}}\]/]
@@ -312,7 +312,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.10.7-beta63"
+                   :version => "1.10.7-beta64"
                },
                {
                    :name => "js-yaml",
@@ -492,5 +492,46 @@ COMPOSITE::coreo_uni_util_jsrunner.tags-rollup-s3.return
   payload_type 'text'
   endpoint ({
       :to => '${AUDIT_AWS_S3_ALERT_RECIPIENT}', :subject => 'CloudCoreo s3 rule results on PLAN::stack_name :: PLAN::name'
+  })
+end
+
+coreo_aws_s3_policy "cloudcoreo-audit-aws-s3-policy" do
+  action((("${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}".length > 0) ) ? :create : :nothing)
+  policy_document <<-EOF
+{
+"Version": "2012-10-17",
+"Statement": [
+{
+"Sid": "",
+"Effect": "Allow",
+"Principal":
+{ "AWS": "*" }
+,
+"Action": "s3:*",
+"Resource": [
+"arn:aws:s3:::${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}/*",
+"arn:aws:s3:::${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}"
+]
+}
+]
+}
+  EOF
+end
+
+coreo_aws_s3_bucket "bucket-${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}" do
+  action((("${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}".length > 0) ) ? :create : :nothing)
+  bucket_policies ["cloudcoreo-audit-aws-s3-policy"]
+end
+
+coreo_uni_util_notify "cloudcoreo-audit-aws-s3-s3" do
+  action((("${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}".length > 0) ) ? :notify : :nothing)
+  type 's3'
+  allow_empty true
+  payload 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.report'
+  endpoint ({
+      object_name: 'aws-s3-json',
+      bucket_name: '${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}',
+      folder: 's3/PLAN::name',
+      properties: {}
   })
 end
