@@ -12,6 +12,7 @@ variables:
        - s3-allusers-write
        - s3-allusers-write-acp
        - s3-allusers-read
+       - s3-allusers-full-control
        - s3-authenticatedusers-write
        - s3-authenticatedusers-write-acp
        - s3-authenticatedusers-read
