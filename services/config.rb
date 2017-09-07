@@ -15,6 +15,24 @@ coreo_aws_rule "s3-inventory" do
   id_map "object.buckets.name"
 end
 
+coreo_aws_rule "s3-allusers-full-control" do
+  action :define
+  service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-allusers-full-control.html"
+  display_name "All users can do anything with the affected bucket"
+  description "Bucket has permissions (ACL) which let all users do anything with the bucket and/or it's contents."
+  category "Dataloss"
+  suggested_action "Remove the entry from the bucket permissions that allows everyone to have full control."
+  level "High"
+  meta_nist_171_id "3.1.3"
+  objectives     ["buckets", "bucket_acl", "bucket_acl"]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {}]
+  audit_objects ["", "object.grants.grantee.uri", "object.grants.permission"]
+  operators     ["", "=~", "=~"]
+  raise_when    ["", /AllUsers/i, /\bfull_control\b/i]
+  id_map "modifiers.bucket"
+end
+
 coreo_aws_rule "s3-allusers-write" do
   action :define
   service :s3
