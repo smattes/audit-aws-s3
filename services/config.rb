@@ -24,7 +24,7 @@ coreo_aws_rule "s3-allusers-full-control" do
   category "Dataloss"
   suggested_action "Remove the entry from the bucket permissions that allows everyone to have full control."
   level "High"
-  meta_nist_171_id "3.1.3"
+  meta_nist_171_id "3.1.22, 3.1.3"
   objectives     ["buckets", "bucket_acl", "bucket_acl"]
   call_modifiers [{}, {:bucket => "buckets.name"}, {}]
   audit_objects ["", "object.grants.grantee.uri", "object.grants.permission"]
@@ -207,7 +207,7 @@ coreo_aws_rule "s3-world-open-policy-get" do
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables the world to get the contents of this bucket."
   level "High"
-  meta_nist_171_id "3.1.3"
+  meta_nist_171_id "3.1.22, 3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects ["", "object.policy"]
