@@ -1,5 +1,5 @@
 s3-authenticatedusers-access:
-  - cloudcoreo-dm-backups: "2017-10-10T00:00Z"
+  - bucket-cloudcoreo-omurbek-test-s3-bucket-name5: "2017-10-10T00:00Z"
 
 # Suppression times (optional) use ISO date formats according to this template:
 #
