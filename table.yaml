@@ -14,10 +14,10 @@ s3-allusers-write-acp:
 s3-allusers-read:
   "AWS S3 Bucket": "__OBJECT__~https://console.aws.amazon.com/s3/buckets/__OBJECT__/?region=+__OBJECT__.violations.__RULE__.region+&tab=overview#&bucket=__OBJECT__"
   "AWS Region": "+__OBJECT__.violations.__RULE__.region+"
-  "AWS Tags": "__TAGS__"
-  "AWS Tags": "__TAGS__"
-  "AWS Tags": "__TAGS__"
-  "AWS Tags": "__TAGS__"
+  "AWS Tags1": "__TAGS__"
+  "AWS Tags2": "__TAGS__"
+  "AWS Tags3": "__TAGS__"
+  "AWS Tags4": "__TAGS__"
 s3-authenticatedusers-write:
   "AWS S3 Bucket": "__OBJECT__~https://console.aws.amazon.com/s3/buckets/__OBJECT__/?region=+__OBJECT__.violations.__RULE__.region+&tab=overview#&bucket=__OBJECT__"
   "AWS Region": "+__OBJECT__.violations.__RULE__.region+"
