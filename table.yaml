@@ -59,3 +59,6 @@ s3-authenticatedusers-access:
   "AWS S3 Bucket": "__OBJECT__~https://console.aws.amazon.com/s3/buckets/__OBJECT__/?region=+__OBJECT__.violations.__RULE__.region+&tab=overview#&bucket=__OBJECT__"
   "AWS Region": "+__OBJECT__.violations.__RULE__.region+"
   "AWS Tags": "__TAGS__"
+default:
+  "Object ID": "__OBJECT__"
+  "Region": "+__OBJECT__.violations.__RULE__.region+"
