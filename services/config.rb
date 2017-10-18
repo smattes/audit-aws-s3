@@ -15,6 +15,24 @@ coreo_aws_rule "s3-inventory" do
   id_map "object.buckets.name"
 end
 
+coreo_aws_rule "s3-allusers-full-control" do
+  action :define
+  service :s3
+  link "http://kb.cloudcoreo.com/mydoc_s3-allusers-full-control.html"
+  display_name "All users can do anything with the affected bucket"
+  description "Bucket has permissions (ACL) which let all users do anything with the bucket and/or it's contents."
+  category "Dataloss"
+  suggested_action "Remove the entry from the bucket permissions that allows everyone to have full control."
+  level "High"
+  meta_nist_171_id "3.1.22, 3.1.3"
+  objectives     ["buckets", "bucket_acl", "bucket_acl"]
+  call_modifiers [{}, {:bucket => "buckets.name"}, {}]
+  audit_objects ["", "object.grants.grantee.uri", "object.grants.permission"]
+  operators     ["", "=~", "=~"]
+  raise_when    ["", /AllUsers/i, /\bfull_control\b/i]
+  id_map "modifiers.bucket"
+end
+
 coreo_aws_rule "s3-allusers-write" do
   action :define
   service :s3
@@ -189,7 +207,7 @@ coreo_aws_rule "s3-world-open-policy-get" do
   category "Security"
   suggested_action "Remove or modify the bucket policy that enables the world to get the contents of this bucket."
   level "High"
-  meta_nist_171_id "3.1.3"
+  meta_nist_171_id "3.1.22, 3.1.3"
   objectives     ["buckets", "bucket_policy"]
   call_modifiers [{}, {:bucket => "buckets.name"}]
   audit_objects ["", "object.policy"]
@@ -312,7 +330,7 @@ coreo_uni_util_jsrunner "tags-to-notifiers-array-s3" do
   packages([
                {
                    :name => "cloudcoreo-jsrunner-commons",
-                   :version => "1.10.7-beta64"
+                   :version => "1.10.7-beta65"
                },
                {
                    :name => "js-yaml",
@@ -509,8 +527,8 @@ coreo_aws_s3_policy "cloudcoreo-audit-aws-s3-policy" do
 ,
 "Action": "s3:*",
 "Resource": [
-"arn:aws:s3:::${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}/*",
-"arn:aws:s3:::${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}"
+"arn:aws:s3:::bucket-${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}/*",
+"arn:aws:s3:::bucket-${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}"
 ]
 }
 ]
@@ -530,7 +548,7 @@ coreo_uni_util_notify "cloudcoreo-audit-aws-s3-s3" do
   payload 'COMPOSITE::coreo_uni_util_jsrunner.tags-to-notifiers-array-s3.report'
   endpoint ({
       object_name: 'aws-s3-json',
-      bucket_name: '${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}',
+      bucket_name: 'bucket-${AUDIT_AWS_S3_S3_NOTIFICATION_BUCKET_NAME}',
       folder: 's3/PLAN::name',
       properties: {}
   })
